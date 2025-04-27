@@ -9,12 +9,16 @@ export default function SignIn() {
       <div className="flex flex-1 items-center justify-center">
         <div className="relative">
           <Image
-            src="/file.svg"
+            src="/conecta-logo.svg"
             alt="Conecta Logo"
-            width={300}
-            height={300}
+            width={600}
+            height={600}
             className="relative z-10"
           />
+          {/* TODO: ARREGLAR EL  ESTILO DEL MENSAJE */}
+          <p className="flex justify-center items-center text-lime-800 tracking-widest">
+            R E C O N E C T A C O N E L M U N D O
+          </p>
           <div className="absolute -inset-10 bg-lime-500/20 blur-[100px] rounded-full z-0"></div>
         </div>
       </div>

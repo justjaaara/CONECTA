@@ -9,10 +9,10 @@ export default function SignUp() {
       <div className="flex flex-1 items-center justify-center">
         <div className="relative">
           <Image
-            src="/file.svg"
+            src="/conecta-logo.svg"
             alt="Conecta Logo"
-            width={300}
-            height={300}
+            width={600}
+            height={600}
             className="relative z-10"
           />
           <div className="absolute -inset-10 bg-lime-500/20 blur-[100px] rounded-full z-0"></div>
