@@ -10,15 +10,37 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString();
 
+  // Obtener el tipo de autenticación (signup, magiclink, etc.)
+  const authType = requestUrl.searchParams.get("type");
+
   if (code) {
     const supabase = await createClient();
     await supabase.auth.exchangeCodeForSession(code);
+
+    // Obtener información sobre el usuario
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    // Si el usuario existe y es un signup o no tiene el email confirmado
+    if (user) {
+      // Si el usuario acaba de registrarse (signup) o el email no está confirmado
+      if (authType === "signup" || !user.email_confirmed_at) {
+        // Redirigir a la página de confirmación de correo
+        return NextResponse.redirect(`${origin}/email-verification`);
+      }
+
+      // Si el tipo es recuperación de contraseña
+      if (authType === "recovery") {
+        return NextResponse.redirect(`${origin}/reset-password`);
+      }
+    }
   }
 
   if (redirectTo) {
     return NextResponse.redirect(`${origin}${redirectTo}`);
   }
 
-  // URL to redirect to after sign up process completes
-  return NextResponse.redirect(`${origin}/protected`);
+  // URL por defecto para los usuarios con sesiones existentes
+  return NextResponse.redirect(`${origin}/protected/dashboard`);
 }

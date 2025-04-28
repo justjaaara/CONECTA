@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 // import { ThemeProvider } from "next-themes";
 // import Link from "next/link";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -34,7 +35,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-full ">{children}</body>
+      <body className="w-full ">
+        {children}
+        <Toaster theme="dark" position="bottom-right" richColors closeButton />
+      </body>
     </html>
     // <html lang="en" className={geistSans.className} suppressHydrationWarning>
     //   <body className="bg-background text-foreground">

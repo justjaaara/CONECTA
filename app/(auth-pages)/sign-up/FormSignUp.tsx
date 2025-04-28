@@ -13,23 +13,53 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { signUpAction } from "../../actions";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Message } from "../../../components/form-message";
+import { redirect } from "next/navigation";
+import { error } from "console";
 
 type Inputs = {
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 export default function FormSignUp() {
-  const onSubmit = (data: Inputs) => {
-    console.log(data);
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<Inputs>({
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
     resolver: zodResolver(SignUpSchema),
+  });
+
+  const onSubmit = form.handleSubmit(async (formData) => {
+    setIsLoading(true);
+    toast.promise(
+      signUpAction(formData).then((result) => {
+        if (result.status === "error") {
+          setIsLoading(false);
+          throw new Error(result.message || "An unexpected error occurred.");
+        }
+
+        if (result.path && result.status === "success") {
+          setTimeout(() => {
+            redirect(result.path);
+          }, 1000);
+        }
+        return result;
+      }),
+      {
+        loading: "Signing up...",
+        success: "Sign-up successful",
+        error: (error) => error.message || "An unexpected error occurred.",
+      }
+    );
   });
 
   return (
@@ -41,7 +71,7 @@ export default function FormSignUp() {
         </h1>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-6">
             <FormLabel className="text-sm text-white mb-2">
               Correo electrónico
             </FormLabel>
@@ -70,6 +100,29 @@ export default function FormSignUp() {
             <FormField
               control={form.control}
               name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="••••••••••"
+                      {...field}
+                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                    />
+                  </FormControl>
+                  <FormMessage
+                    className="text-red-500 animate-pulse"
+                    aria-live="polite"
+                  />
+                </FormItem>
+              )}
+            />
+            <FormLabel className="text-sm text-white mb-2">
+              Confirmar contraseña
+            </FormLabel>
+            <FormField
+              control={form.control}
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
