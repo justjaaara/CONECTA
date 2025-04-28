@@ -1,116 +1,104 @@
-# Conecta
+<a href="https://demo-nextjs-with-supabase.vercel.app/">
+  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
+  <h1 align="center">Next.js and Supabase Starter Kit</h1>
+</a>
 
-## Descripción del Proyecto
+<p align="center">
+ The fastest way to build apps with Next.js and Supabase
+</p>
 
-Conecta es una aplicación web moderna desarrollada con Next.js 15, utilizando las últimas características y mejores prácticas de desarrollo frontend.
+<p align="center">
+  <a href="#features"><strong>Features</strong></a> ·
+  <a href="#demo"><strong>Demo</strong></a> ·
+  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
+  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
+  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
+  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
+</p>
+<br/>
 
-## Tecnologías Utilizadas
+## Features
 
-- **Next.js 15.3.1**: Framework de React que permite renderizado del lado del servidor (SSR), generación estática y otras optimizaciones de rendimiento.
-- **React 19**: Biblioteca JavaScript para construir interfaces de usuario.
-- **TailwindCSS 4**: Framework de CSS utilitario para diseños rápidos y consistentes.
-- **Shadcn/ui**: Componentes de interfaz de usuario reutilizables y personalizables construidos con Radix UI y estilizados con TailwindCSS.
-- **Zod**: Biblioteca de validación de esquemas TypeScript-first para validar datos de formularios.
-- **React Hook Form**: Biblioteca para manejo eficiente de formularios en React con validación y mejor rendimiento.
-- **Turbopack**: Empaquetador de alta velocidad para mejorar los tiempos de desarrollo.
-- **Geist Font**: Tipografía moderna y legible que proporciona una experiencia de usuario refinada.
+- Works across the entire [Next.js](https://nextjs.org) stack
+  - App Router
+  - Pages Router
+  - Middleware
+  - Client
+  - Server
+  - It just works!
+- supabase-ssr. A package to configure Supabase Auth to use cookies
+- Styling with [Tailwind CSS](https://tailwindcss.com)
+- Components with [shadcn/ui](https://ui.shadcn.com/)
+- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
+  - Environment variables automatically assigned to Vercel project
 
-## Estructura del Proyecto
+## Demo
 
-```
-src/
-├── app/                       # Directorio principal de la aplicación (Next.js App Router)
-│   ├── layout.js              # Diseño raíz que aplica en toda la aplicación
-│   ├── page.js                # Página de inicio que redirige al login
-│   ├── globals.css            # Estilos globales con configuración de Tailwind y temas
-│   └── auth/                  # Módulo de autenticación
-│       ├── sign-in/           # Componentes y página de inicio de sesión
-│       └── sign-up/           # Componentes y página de registro
-├── components/                # Componentes reutilizables
-│   └── ui/                    # Componentes de interfaz de usuario (Shadcn)
-│       ├── button.jsx         # Componente de botón estilizado
-│       ├── form.jsx           # Componente de formulario
-│       ├── input.jsx          # Componente de entrada
-│       └── label.jsx          # Componente de etiqueta
-├── lib/                       # Utilidades y funciones auxiliares
-│   └── utils.js               # Funciones de utilidad generales
-└── validations/               # Esquemas de validación usando Zod
-    ├── SignInSchema.js        # Esquema para validar el formulario de inicio de sesión
-    └── SignUpSchema.js        # Esquema para validar el formulario de registro
-```
+You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
 
-## Características Arquitectónicas Clave
+## Deploy to Vercel
 
-### App Router de Next.js
+Vercel deployment will guide you through creating a Supabase account and project.
 
-El proyecto utiliza el sistema de enrutamiento basado en el sistema de archivos de Next.js (App Router), lo que permite una organización intuitiva y facilita las características como layouts anidados, carga de datos, y manejo de rutas.
+After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
 
-### Sistema de Temas
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
 
-La aplicación incluye un sistema de temas claro y oscuro implementado con variables CSS personalizadas, permitiendo una experiencia visual consistente y personalizable.
+The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
 
-### Componentes Reutilizables con Shadcn
+If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
 
-Los componentes de UI están construidos usando Shadcn, que proporciona componentes accesibles, personalizables y con un diseño consistente, basados en Radix UI y estilizados con TailwindCSS.
+## Clone and run locally
 
-### Validación de Formularios
+1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
 
-La combinación de React Hook Form con Zod proporciona una validación robusta y tipada de formularios, mejorando la experiencia del usuario y reduciendo errores.
-
-### Optimización de Rendimiento
-
-El uso de Turbopack durante el desarrollo y las optimizaciones incorporadas de Next.js garantizan tiempos de carga rápidos y una experiencia fluida para los usuarios.
-
-## Instrucciones de Instalación y Ejecución
-
-1. **Clonar el repositorio**:
+2. Create a Next.js app using the Supabase Starter template npx command
 
    ```bash
-   git clone https://github.com/justjaaara/CONECTA.git
-   cd conecta
+   npx create-next-app --example with-supabase with-supabase-app
    ```
-
-2. **Instalar dependencias**:
 
    ```bash
-   npm install
+   yarn create next-app --example with-supabase with-supabase-app
    ```
 
-3. **Ejecutar en modo desarrollo**:
+   ```bash
+   pnpm create next-app --example with-supabase with-supabase-app
+   ```
+
+3. Use `cd` to change into the app's directory
+
+   ```bash
+   cd with-supabase-app
+   ```
+
+4. Rename `.env.example` to `.env.local` and update the following:
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+   ```
+
+   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+
+5. You can now run the Next.js local development server:
 
    ```bash
    npm run dev
    ```
 
-   La aplicación estará disponible en [http://localhost:3000](http://localhost:3000)
+   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-4. **Construir para producción**:
+6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
 
-   ```bash
-   npm run build
-   ```
+> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
 
-5. **Iniciar en modo producción**:
-   ```bash
-   npm start
-   ```
+## Feedback and issues
 
-## Modo de desarrollo con Turbopack
+Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
 
-Este proyecto está configurado para usar Turbopack en desarrollo para una experiencia de desarrollo más rápida:
+## More Supabase examples
 
-```bash
-npm run dev
-```
-
-## Linting
-
-Para ejecutar el linter y verificar errores de código:
-
-```bash
-npm run lint
-```
-
-## Personalización de Componentes
-
-Los componentes Shadcn se pueden personalizar modificando los archivos en `src/components/ui/`. Cada componente está diseñado para ser extensible y adaptable a las necesidades del proyecto.
+- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
+- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
+- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
