@@ -1,16 +1,12 @@
+// app/auth/callback/route.ts
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  // The `/auth/callback` route is required for the server-side auth flow implemented
-  // by the SSR package. It exchanges an auth code for the user's session.
-  // https://supabase.com/docs/guides/auth/server-side/nextjs
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString();
-
-  // Obtener el tipo de autenticación (signup, magiclink, etc.)
   const authType = requestUrl.searchParams.get("type");
 
   if (code) {
@@ -22,18 +18,28 @@ export async function GET(request: Request) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // Si el usuario existe y es un signup o no tiene el email confirmado
-    if (user) {
-      // Si el usuario acaba de registrarse (signup) o el email no está confirmado
-      if (authType === "signup" || !user.email_confirmed_at) {
-        // Redirigir a la página de confirmación de correo
+    // Si el usuario existe y acaba de confirmar su email
+    if (user && (authType === "signup" || authType === "email_confirmation")) {
+      // Verificar si el usuario ya tiene un perfil
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      // Si no tiene perfil, redireccionar a la página de verificación
+      // donde verá el botón para completar su perfil
+      if (!profile) {
         return NextResponse.redirect(`${origin}/email-verification`);
       }
 
-      // Si el tipo es recuperación de contraseña
-      if (authType === "recovery") {
-        return NextResponse.redirect(`${origin}/reset-password`);
-      }
+      // Si ya tiene perfil, redireccionar al dashboard
+      return NextResponse.redirect(`${origin}/protected/dashboard`);
+    }
+
+    // Si el tipo es recuperación de contraseña
+    if (authType === "recovery") {
+      return NextResponse.redirect(`${origin}/reset-password`);
     }
   }
 

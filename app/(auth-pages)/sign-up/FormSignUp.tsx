@@ -16,9 +16,7 @@ import { Button } from "@/components/ui/button";
 import { signUpAction } from "../../actions";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Message } from "../../../components/form-message";
 import { redirect } from "next/navigation";
-import { error } from "console";
 
 type Inputs = {
   email: string;
@@ -39,6 +37,7 @@ export default function FormSignUp() {
   });
 
   const onSubmit = form.handleSubmit(async (formData) => {
+    console.log("asdasdasdsadasdasddads");
     setIsLoading(true);
     toast.promise(
       signUpAction(formData).then((result) => {
@@ -71,7 +70,7 @@ export default function FormSignUp() {
         </h1>
 
         <Form {...form}>
-          <form onSubmit={onSubmit} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-2">
             <FormLabel className="text-sm text-white mb-2">
               Correo electrónico
             </FormLabel>
@@ -140,9 +139,11 @@ export default function FormSignUp() {
                 </FormItem>
               )}
             />
+
             <Button
               type="submit"
               className="w-full bg-lime-500 hover:bg-lime-600 text-black font-medium"
+              disabled={isLoading}
             >
               Registrarme
             </Button>

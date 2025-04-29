@@ -2,41 +2,30 @@
 
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export const signUpAction = async (formData: {
   email: string;
   password: string;
   confirmPassword: string;
 }) => {
-  const { email, password, confirmPassword } = formData;
+  const { email, password } = formData;
 
-  if (!email || !password || !confirmPassword) {
-    return {
-      status: "error",
-      message: "Email, password and confirm password are required",
-    };
-  }
-  //Esta validación ya la hace ZOD pero la dejo por si hay algun fallo
-  if (password !== confirmPassword) {
-    return {
-      status: "error",
-      message: "Passwords do not match",
-    };
-  }
+  // Hago la autenticación con supabase
   const origin = (await headers()).get("origin");
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { error: authError } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
     },
   });
-  if (error) {
-    console.error(error.code + " " + error.message);
+  if (authError) {
+    console.error(authError.code + " " + authError.message);
     return {
       status: "error",
-      message: error.message,
+      message: authError.message,
       path: "/sign-up",
     };
   }
@@ -48,6 +37,56 @@ export const signUpAction = async (formData: {
   };
 };
 
+export const getCurrentSession = async () => {
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    return {
+      status: "error",
+      message: "No active session",
+    };
+  }
+
+  return {
+    status: "success",
+    session,
+  };
+};
+
+export const signOutAction = async () => {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error(error.message);
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+
+  redirect("/sign-in");
+};
+
+export const isLoggedIn = async () => {
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    return {
+      status: "error",
+      session,
+    };
+  }
+  return {
+    status: "success",
+    session,
+  };
+};
 // import { encodedRedirect } from "@/utils/utils";
 // import { createClient } from "@/utils/supabase/server";
 // import { headers } from "next/headers";
