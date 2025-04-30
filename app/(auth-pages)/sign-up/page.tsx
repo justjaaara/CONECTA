@@ -1,21 +1,9 @@
-import { FormMessage, Message } from "@/components/form-message";
 import FormSignUp from "./FormSignUp";
 import Image from "next/image";
 import { isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 
-export default async function Signup(props: {
-  searchParams: Promise<Message>;
-}) {
-  const searchParams = await props.searchParams;
-  if ("message" in searchParams) {
-    return (
-      <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
-        <FormMessage message={searchParams} />
-      </div>
-    );
-  }
-
+export default async function Signup() {
   const { status, session } = await isLoggedIn();
   if (status === "success" && session) {
     redirect("/protected/dashboard");

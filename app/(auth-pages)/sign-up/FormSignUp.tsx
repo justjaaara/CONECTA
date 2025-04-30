@@ -3,6 +3,7 @@
 import { SignUpSchema } from "@/validations/SignUpSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Form,
   FormField,
@@ -11,6 +12,7 @@ import {
   FormMessage,
   FormLabel,
 } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUpAction } from "../../actions";

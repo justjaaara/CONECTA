@@ -1,12 +1,9 @@
-import { Message } from "@/components/form-message";
 import Image from "next/image";
 import FormSignIn from "./FormSignIn";
 import { isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 
-export default async function Login(props: { searchParams: Promise<Message> }) {
-  const searchParams = await props.searchParams;
-
+export default async function Login() {
   const { status, session } = await isLoggedIn();
   if (status === "success" && session) {
     redirect("/protected/dashboard");
