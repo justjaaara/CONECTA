@@ -71,6 +71,33 @@ export const signOutAction = async () => {
   redirect("/sign-in");
 };
 
+export const logInAction = async (formData: {
+  email: string;
+  password: string;
+}) => {
+  const { email, password } = formData;
+  const supabase = await createClient();
+
+  const { data, error: logInError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (logInError) {
+    console.error(logInError.code + " " + logInError.message);
+    return {
+      status: "error",
+      message: logInError.message,
+    };
+  }
+
+  return {
+    status: "success",
+    message: "User logged in successfully",
+    path: "/protected/dashboard",
+  };
+};
+
 export const isLoggedIn = async () => {
   const supabase = await createClient();
   const {
