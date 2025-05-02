@@ -13,13 +13,14 @@ export const signUpAction = async (formData: {
   const { email, password } = formData;
 
   // Hago la autenticación con supabase
-  const origin = (await headers()).get("origin");
   const supabase = await createClient();
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   const { error: authError } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback?type=signup`,
+      emailRedirectTo: `${siteUrl}/auth/callback?type=signup`,
     },
   });
   if (authError) {
