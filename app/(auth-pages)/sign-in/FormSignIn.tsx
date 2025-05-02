@@ -16,7 +16,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { logInAction } from "@/app/actions";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   email: string;
@@ -25,6 +25,7 @@ type Inputs = {
 
 export default function FormSignIn() {
   const [isLoading, setIsloading] = useState(false);
+  const router = useRouter();
 
   const onSubmit = (formData: Inputs) => {
     setIsloading(true);
@@ -36,7 +37,7 @@ export default function FormSignIn() {
         }
 
         if (result.path && result.status === "success") {
-          redirect(result.path);
+          router.push(result.path);
         }
         return result;
       }),

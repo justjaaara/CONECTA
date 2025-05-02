@@ -2,20 +2,21 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
-import { isLoggedIn } from "@/app/actions";
+import { hasProfile, isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 
 export default async function EmailVerificationPage() {
-  const supabase = await createClient();
-
-  // Verificar si el usuario ya está autenticado (ya verificó el email)
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { status, session } = await isLoggedIn();
-  if (status === "success" && session) {
-    redirect("/protected/dashboard");
+
+  if (status && session) {
+    const profileExists = await hasProfile(session);
+    if (profileExists.status) {
+      // Si ya tiene perfil, redireccionar a la página de dashboard
+      redirect("/protected/dashboard");
+    } else {
+      // Si no tiene perfil, redireccionar a la página de completar perfil
+      redirect("/complete-profile");
+    }
   }
 
   return (
@@ -39,42 +40,19 @@ export default async function EmailVerificationPage() {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-white">
-          {user ? "¡Email verificado!" : "Verifica tu correo"}
-        </h1>
+        <h1 className="text-3xl font-bold text-white">"Verifica tu correo"</h1>
 
         <p className="text-white/70 mb-6">
-          {user
-            ? "Tu correo electrónico ha sido verificado correctamente. Ahora puedes completar tu perfil."
-            : "Hemos enviado un enlace de verificación a tu correo electrónico. Por favor, revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta."}
+          "Hemos enviado un enlace de verificación a tu correo electrónico. Por
+          favor, revisa tu bandeja de entrada y haz clic en el enlace para
+          activar tu cuenta."
         </p>
 
-        {!user && (
-          <div className="bg-black/30 p-4 rounded-lg border border-lime-500/20 text-sm text-white/60">
-            <p>
-              Si no recibes el correo en unos minutos, revisa tu carpeta de spam
-              o correo no deseado.
-            </p>
-          </div>
-        )}
-
-        <div className="pt-6">
-          {user ? (
-            <Link href="/complete-profile">
-              <Button className="w-full bg-lime-500 hover:bg-lime-600 text-black font-medium">
-                Completar mi perfil
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/sign-in">
-              <Button
-                variant="outline"
-                className="w-full border-lime-500/50 text-lime-500 hover:bg-lime-500/10 hover:text-lime-400"
-              >
-                Volver a Iniciar Sesión
-              </Button>
-            </Link>
-          )}
+        <div className="bg-black/30 p-4 rounded-lg border border-lime-500/20 text-sm text-white/60">
+          <p>
+            Si no recibes el correo en unos minutos, revisa tu carpeta de spam o
+            correo no deseado.
+          </p>
         </div>
       </div>
     </div>

@@ -18,8 +18,8 @@ import { Button } from "@/components/ui/button";
 import { signUpAction } from "../../actions";
 import { useState } from "react";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
 
+import { useRouter } from "next/navigation";
 type Inputs = {
   email: string;
   password: string;
@@ -28,6 +28,7 @@ type Inputs = {
 
 export default function FormSignUp() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<Inputs>({
     defaultValues: {
@@ -47,11 +48,12 @@ export default function FormSignUp() {
           throw new Error(result.message || "An unexpected error occurred.");
         }
 
-        if (result.path && result.status === "success") {
+        if (result.status === "success") {
           setTimeout(() => {
-            redirect(result.path);
+            router.push("/email-verification");
           }, 1000);
         }
+
         return result;
       }),
       {

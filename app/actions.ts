@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import type { Session } from "@supabase/supabase-js";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -18,7 +19,7 @@ export const signUpAction = async (formData: {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback?type=signup`,
     },
   });
   if (authError) {
@@ -33,7 +34,6 @@ export const signUpAction = async (formData: {
   return {
     status: "success",
     message: "User signed up successfully",
-    path: "/email-verification",
   };
 };
 
@@ -105,13 +105,42 @@ export const isLoggedIn = async () => {
   } = await supabase.auth.getSession();
   if (!session) {
     return {
-      status: "error",
+      status: false,
       session,
     };
   }
   return {
-    status: "success",
+    status: true,
     session,
+  };
+};
+
+export const hasProfile = async (session: Session) => {
+  const supabase = await createClient();
+
+  let { data: profile, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session?.user.id)
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    return {
+      status: false,
+      profile: null,
+    };
+  }
+
+  if (profile) {
+    return {
+      status: true,
+      profile,
+    };
+  }
+  return {
+    status: false,
+    profile: null,
   };
 };
 // import { encodedRedirect } from "@/utils/utils";

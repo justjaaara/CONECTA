@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import {
   Form,
@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { profileSchema } from "@/validations/CompleteProfileSchema";
 import type { User } from "@supabase/supabase-js"; // Importa el tipo User
+import { useRouter } from "next/navigation";
 
 // Esquema para validación de datos
 type Inputs = {
@@ -73,7 +74,6 @@ export default function CompleteProfileForm({ user }: { user: User }) {
 
       // Redireccionar al dashboard
       router.push("/protected/dashboard");
-      router.refresh();
     } catch (error) {
       toast.error("Error inesperado", {
         description: "Hubo un problema al completar tu perfil.",

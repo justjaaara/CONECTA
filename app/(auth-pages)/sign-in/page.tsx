@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default async function Login() {
   const { status, session } = await isLoggedIn();
-  if (status === "success" && session) {
+  if (status && session) {
     redirect("/protected/dashboard");
   }
 

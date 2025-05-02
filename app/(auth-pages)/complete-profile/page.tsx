@@ -1,38 +1,31 @@
 // app/(auth-pages)/complete-profile/page.tsx
+
+"use server";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import CompleteProfileForm from "./CompleteProfileForm";
+import { isLoggedIn, hasProfile } from "@/app/actions";
 
 export default async function CompleteProfile() {
-  const supabase = await createClient();
+  const loggedIn = await isLoggedIn();
+  console.log("🚀 ~ CompleteProfile ~ loggedIn:", loggedIn.session?.user.id);
 
-  // Verificar que el usuario está autenticado
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const user = session?.user;
-
-  // Si no hay usuario, redireccionar a sign-in
-  if (!user) {
+  if (!loggedIn.status || !loggedIn.session?.user) {
+    // Si no hay sesión, redireccionar a sign-in
     return redirect("/sign-in");
   }
-
-  // También podemos verificar si el perfil ya existe
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  // Si ya tiene perfil completo, redireccionar al dashboard
-  if (profile) {
+  const profile = await hasProfile(loggedIn.session);
+  if (profile.status) {
+    // Si ya tiene perfil, redireccionar a la página de dashboard
     return redirect("/protected/dashboard");
   }
+  // Si no tiene perfil, continuar con la creación del perfil
+
+  const user = loggedIn.session?.user;
 
   return (
     <div className="flex min-h-screen bg-black w-full">
-      <CompleteProfileForm user={user} />;
+      <CompleteProfileForm user={user} />
     </div>
   );
 }

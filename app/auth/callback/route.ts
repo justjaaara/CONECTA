@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     // Si el usuario existe y acaba de confirmar su email
     if (user && (authType === "signup" || authType === "email_confirmation")) {
       // Verificar si el usuario ya tiene un perfil
-      const { data: profile } = await supabase
+      let { data: profile, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
@@ -29,11 +29,11 @@ export async function GET(request: Request) {
 
       // Si no tiene perfil, redireccionar a la página de verificación
       // donde verá el botón para completar su perfil
-      if (!profile) {
+      if (!profile || error) {
+        console.log(error, profile, "ERRORRRRRRRRRRR");
         return NextResponse.redirect(`${origin}/complete-profile`);
       }
-
-      // Si ya tiene perfil, redireccionar al dashboard
+      // Si tiene perfil, redireccionar a la página de dashboard
       return NextResponse.redirect(`${origin}/protected/dashboard`);
     }
 
