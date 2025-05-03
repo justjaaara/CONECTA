@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOutAction } from "@/app/actions";
 
 // Props para recibir los datos del usuario desde el componente padre
 type DashboardHeaderProps = {
@@ -98,9 +99,9 @@ export const DasboardHeader = ({
             <DropdownMenuItem>Perfil</DropdownMenuItem>
             <DropdownMenuItem>Subscripción</DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <form action="/api/auth/sign-out" method="post">
-                <button className="w-full text-left">Cerrar sesión</button>
-              </form>
+              <button className="w-full text-left" onClick={signOutAction}>
+                Cerrar sesión
+              </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
