@@ -144,6 +144,32 @@ export const hasProfile = async (session: Session) => {
     profile: null,
   };
 };
+
+export const getProfile = async (session: Session) => {
+  const supabase = await createClient();
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session?.user.id)
+    .single();
+  if (error) {
+    console.error(error.message);
+    return {
+      status: false,
+      profile: null,
+    };
+  }
+  if (profile) {
+    return {
+      status: true,
+      profile,
+    };
+  }
+  return {
+    status: false,
+    profile: null,
+  };
+};
 // import { encodedRedirect } from "@/utils/utils";
 // import { createClient } from "@/utils/supabase/server";
 // import { headers } from "next/headers";
