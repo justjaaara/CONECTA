@@ -1,9 +1,10 @@
 "use client";
 
-import { SignUpSchema } from "@/validations/SignUpSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useState } from "react";
+import { SignUpSchema } from "@/validations/SignUpSchema";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormField,
@@ -12,14 +13,12 @@ import {
   FormMessage,
   FormLabel,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { signUpAction } from "../../actions";
-import { useState } from "react";
 import { toast } from "sonner";
-
+import { signUpAction } from "@/app/actions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 type Inputs = {
   email: string;
   password: string;
@@ -39,44 +38,51 @@ export default function FormSignUp() {
     resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = form.handleSubmit(async (formData) => {
+  const onSubmit = (formData: Inputs) => {
     setIsLoading(true);
     toast.promise(
       signUpAction(formData).then((result) => {
         if (result.status === "error") {
           setIsLoading(false);
-          throw new Error(result.message || "An unexpected error occurred.");
+          throw new Error(result.message || "Ocurrió un error inesperado.");
         }
 
-        if (result.status === "success") {
-          setTimeout(() => {
-            router.push("/email-verification");
-          }, 1000);
+        if (result.path && result.status === "success") {
+          router.push(result.path);
         }
 
         return result;
       }),
       {
         loading: "Registrando...",
-        success: "Registro exitoso",
-        error: (error) => error.message || "An unexpected error occurred.",
+        success: "Cuenta creada correctamente",
+        error: (error) => error.message || "Error desconocido",
       }
     );
-  });
+  };
 
   return (
-    <div className="flex flex-1 items-center justify-center p-8 bg-black">
-      <div className="w-full max-w-md space-y-8">
+    <div className="flex flex-1 items-center justify-center p-6 md:p-8 bg-black">
+      <div className="w-full max-w-sm md:max-w-md space-y-6 md:space-y-8">
+        {/* Botón "Ya tengo cuenta" */}
+        <div className="flex justify-end">
+          <Button
+            variant="outline"
+            className="px-6 text-white bg-gradient-to-b from-black to-lime-700 border-gray-500 hover:bg-lime-500/10 hover:text-lime-400 hover:border-lime-500"
+            asChild
+          >
+            <Link href="/sign-in">Ya tengo cuenta</Link>
+          </Button>
+        </div>
+
         {/* Título */}
-        <h1 className="text-3xl font-bold text-center text-white mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-center text-white mb-4">
           REGISTRARSE
         </h1>
 
         <Form {...form}>
-          <form onSubmit={onSubmit} className="space-y-2">
-            <FormLabel className="text-sm text-white mb-2">
-              Correo electrónico
-            </FormLabel>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+            <p className="text-sm text-white">Correo electrónico</p>
             <FormField
               control={form.control}
               name="email"
@@ -86,19 +92,15 @@ export default function FormSignUp() {
                     <Input
                       placeholder="ejemplo@conecta.com"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] border border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
-                  <FormMessage
-                    className="text-red-500 animate-pulse"
-                    aria-live="polite"
-                  />
+                  <FormMessage className="text-red-500 animate-pulse text-xs md:text-sm" />
                 </FormItem>
               )}
             />
-            <FormLabel className="text-sm text-white mb-2">
-              Contraseña
-            </FormLabel>
+
+            <p className="text-sm text-white">Contraseña</p>
             <FormField
               control={form.control}
               name="password"
@@ -109,19 +111,15 @@ export default function FormSignUp() {
                       type="password"
                       placeholder="••••••••••"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] border border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
-                  <FormMessage
-                    className="text-red-500 animate-pulse"
-                    aria-live="polite"
-                  />
+                  <FormMessage className="text-red-500 animate-pulse text-xs md:text-sm" />
                 </FormItem>
               )}
             />
-            <FormLabel className="text-sm text-white mb-2">
-              Confirmar contraseña
-            </FormLabel>
+
+            <p className="text-sm text-white">Confirmar contraseña</p>
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -132,20 +130,17 @@ export default function FormSignUp() {
                       type="password"
                       placeholder="••••••••••"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] border border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
-                  <FormMessage
-                    className="text-red-500 animate-pulse"
-                    aria-live="polite"
-                  />
+                  <FormMessage className="text-red-500 animate-pulse text-xs md:text-sm" />
                 </FormItem>
               )}
             />
 
             <Button
               type="submit"
-              className="w-full bg-lime-500 hover:bg-lime-600 text-black"
+              className="w-full bg-[#0D0E0A] border border-lime-500 hover:bg-lime-600 hover:text-black text-lime-500 font-medium text-center"
               disabled={isLoading}
             >
               {isLoading ? (

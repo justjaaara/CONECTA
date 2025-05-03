@@ -58,13 +58,13 @@ export default function FormSignIn() {
   });
 
   return (
-    <div className="flex flex-1 items-center justify-center p-8">
-      <div className="w-full max-w-md space-y-8">
+    <div className="flex flex-1 items-center justify-center p-6 md:p-8 bg-black">
+      <div className="w-full max-w-sm md:max-w-md space-y-6 md:space-y-8">
         {/* Botón "Soy Nuevo" */}
         <div className="flex justify-end">
           <Button
             variant="outline"
-            className="text-lime-500 border-lime-500 hover:bg-lime-500/10 hover:text-lime-400"
+            className="px-6 text-white bg-gradient-to-b from-black to-lime-700 border-gray-500 hover:bg-lime-500/10 hover:text-lime-400 hover:border-lime-500"
             asChild
           >
             <Link href="/sign-up">Soy Nuevo</Link>
@@ -72,13 +72,13 @@ export default function FormSignIn() {
         </div>
 
         {/* Título */}
-        <h1 className="text-3xl font-bold text-center text-white mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-center text-white mb-6 md:mb-8">
           INICIAR SESIÓN
         </h1>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <p className="text-sm text-white mb-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+            <p className="text-sm text-white mb-1 md:mb-2">
               Ingrese el correo registrado del titular de hogar establecido
             </p>
             <FormField
@@ -90,17 +90,17 @@ export default function FormSignIn() {
                     <Input
                       placeholder="ejemplo@conecta.com"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
                   <FormMessage
-                    className="text-red-500 animate-pulse"
+                    className="text-red-500 animate-pulse text-xs md:text-sm"
                     aria-live="polite"
                   />
                 </FormItem>
               )}
             />
-            <p className="text-sm text-white mb-2">Ahora la contraseña</p>
+            <p className="text-sm text-white mb-1 md:mb-2">Ahora la contraseña</p>
             <FormField
               control={form.control}
               name="password"
@@ -111,11 +111,11 @@ export default function FormSignIn() {
                       type="password"
                       placeholder="••••••••••"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
                   <FormMessage
-                    className="text-red-500 animate-pulse"
+                    className="text-red-500 animate-pulse text-xs md:text-sm"
                     aria-live="polite"
                   />
                 </FormItem>
@@ -123,17 +123,17 @@ export default function FormSignIn() {
             />
 
             <div className="text-center">
-              <Link
-                href="/forgot-password"
-                className="text-lime-500 hover:underline text-sm"
-              >
-                Si la olvidaste, haz click Aquí
-              </Link>
+            <p className="text-sm text-white">
+              Si la olvidaste, haz click&nbsp;
+              <Link href="/forgot-password" className="text-lime-500 underline hover:text-lime-300">Aquí</Link>
+            </p>
+
             </div>
+
 
             <Button
               type="submit"
-              className="w-full bg-lime-500 hover:bg-lime-600 text-black"
+              className="w-full bg-[#0D0E0A] border border-lime-500 hover:bg-lime-600 hover:text-black text-lime-500 font-medium text-center"
               disabled={isLoading}
             >
               {isLoading ? (
