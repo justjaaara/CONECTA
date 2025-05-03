@@ -1,7 +1,10 @@
-import { getCurrentSession, getProfile, signOutAction } from "@/app/actions";
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import {
   DropdownMenu,
@@ -12,19 +15,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const DasboardHeader = async () => {
-  let userName = "conecta";
-  let name = "Conecta";
-  let lastName = "";
-  let avatar = "/placeholder.svg?height=40&width=40";
-  const { status, user } = await getCurrentSession();
-  if (status && user) {
-    const { profile } = await getProfile(user);
-    userName = profile.username;
-    name = profile.name;
-    lastName = profile.last_name;
-    avatar = profile.profile_pic_url;
-  }
+// Props para recibir los datos del usuario desde el componente padre
+type DashboardHeaderProps = {
+  userName: string;
+  name: string;
+  lastName: string;
+  avatar: string;
+};
+
+export const DasboardHeader = ({
+  userName,
+  name,
+  lastName,
+  avatar,
+}: DashboardHeaderProps) => {
+  const pathname = usePathname();
 
   return (
     <header className="flex items-center justify-between border-b border-gray-800 pb-4">
@@ -38,15 +43,36 @@ export const DasboardHeader = async () => {
         />
       </div>
       <nav className="hidden md:flex items-center space-x-8">
-        <a href="#" className="font-medium">
+        <Link
+          href="/protected/dashboard"
+          className={`transition-colors ${
+            pathname === "/protected/dashboard"
+              ? "text-lime-500 font-medium"
+              : "text-gray-400 hover:text-white"
+          }`}
+        >
           Resumen
-        </a>
-        <a href="#" className="text-gray-400">
+        </Link>
+        <Link
+          href="/protected/home"
+          className={`transition-colors ${
+            pathname === "/protected/home"
+              ? "text-lime-500 font-medium"
+              : "text-gray-400 hover:text-white"
+          }`}
+        >
           Mi Hogar
-        </a>
-        <a href="#" className="text-gray-400">
+        </Link>
+        <Link
+          href="/protected/reports"
+          className={`transition-colors ${
+            pathname === "/protected/reports"
+              ? "text-lime-500 font-medium"
+              : "text-gray-400 hover:text-white"
+          }`}
+        >
           Reportes
-        </a>
+        </Link>
       </nav>
       <div className="flex items-center space-x-2">
         <div className="text-right mr-2">
@@ -56,21 +82,25 @@ export const DasboardHeader = async () => {
           <div className="text-xs text-gray-400">@{userName}</div>
         </div>
         <Avatar className="h-10 w-10 border border-gray-700 text-black">
-          <AvatarImage src={avatar} alt="@camila" />
-          <AvatarFallback>CY</AvatarFallback>
+          <AvatarImage src={avatar} alt={name} />
+          <AvatarFallback>
+            {(name?.substring(0, 1) || "C") + (lastName?.substring(0, 1) || "")}
+          </AvatarFallback>
         </Avatar>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            {<ChevronDown className="h-5 w-4 text-gray-400" />}
+            <ChevronDown className="h-5 w-4 text-gray-400" />
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
+          <DropdownMenuContent className="border border-lime-500 bg-black text-white">
             <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Perfil</DropdownMenuItem>
             <DropdownMenuItem>Subscripción</DropdownMenuItem>
-            <DropdownMenuItem>
-              {<button onClick={signOutAction}>Cerrar sesión</button>}
+            <DropdownMenuItem asChild>
+              <form action="/api/auth/sign-out" method="post">
+                <button className="w-full text-left">Cerrar sesión</button>
+              </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
