@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import type { Session } from "@supabase/supabase-js";
+import type { Session, User } from "@supabase/supabase-js";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -41,10 +41,10 @@ export const signUpAction = async (formData: {
 export const getCurrentSession = async () => {
   const supabase = await createClient();
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!session) {
+  if (!user) {
     return {
       status: "error",
       message: "No active session",
@@ -53,7 +53,7 @@ export const getCurrentSession = async () => {
 
   return {
     status: "success",
-    session,
+    user,
   };
 };
 
@@ -100,29 +100,26 @@ export const logInAction = async (formData: {
 };
 
 export const isLoggedIn = async () => {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  if (!session) {
+  const { user } = await getCurrentSession();
+  if (!user) {
     return {
       status: false,
-      session,
+      user,
     };
   }
   return {
     status: true,
-    session,
+    user,
   };
 };
 
-export const hasProfile = async (session: Session) => {
+export const hasProfile = async (user: User) => {
   const supabase = await createClient();
 
   let { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", session?.user.id)
+    .eq("id", user.id)
     .single();
 
   if (error) {
@@ -145,12 +142,12 @@ export const hasProfile = async (session: Session) => {
   };
 };
 
-export const getProfile = async (session: Session) => {
+export const getProfile = async (user: User) => {
   const supabase = await createClient();
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", session?.user.id)
+    .eq("id", user.id)
     .single();
   if (error) {
     console.error(error.message);

@@ -3,14 +3,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 export const DasboardHeader = async () => {
   let userName = "conecta";
   let name = "Conecta";
   let lastName = "";
   let avatar = "/placeholder.svg?height=40&width=40";
-  const { status, session } = await getCurrentSession();
-  if (status && session) {
-    const { profile } = await getProfile(session);
+  const { status, user } = await getCurrentSession();
+  if (status && user) {
+    const { profile } = await getProfile(user);
     userName = profile.username;
     name = profile.name;
     lastName = profile.last_name;
@@ -38,7 +47,6 @@ export const DasboardHeader = async () => {
         <a href="#" className="text-gray-400">
           Reportes
         </a>
-        <button onClick={signOutAction}>Logout</button>
       </nav>
       <div className="flex items-center space-x-2">
         <div className="text-right mr-2">
@@ -51,7 +59,21 @@ export const DasboardHeader = async () => {
           <AvatarImage src={avatar} alt="@camila" />
           <AvatarFallback>CY</AvatarFallback>
         </Avatar>
-        <ChevronDown className="h-4 w-4 text-gray-400" />
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            {<ChevronDown className="h-5 w-4 text-gray-400" />}
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Perfil</DropdownMenuItem>
+            <DropdownMenuItem>Subscripción</DropdownMenuItem>
+            <DropdownMenuItem>
+              {<button onClick={signOutAction}>Cerrar sesión</button>}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

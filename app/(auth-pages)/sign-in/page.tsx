@@ -4,8 +4,8 @@ import { isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 
 export default async function Login() {
-  const { status, session } = await isLoggedIn();
-  if (status && session) {
+  const { status, user } = await isLoggedIn();
+  if (status && user) {
     redirect("/protected/dashboard");
   }
 
@@ -14,14 +14,14 @@ export default async function Login() {
       {/* Parte izquierda (Logo y Mensaje) */}
       <div className="flex flex-col items-center justify-center md:w-1/2 mb-8 md:mb-0 md:mr-8 lg:mr-16">
         <div className="relative">
-        <Image
+          <Image
             src="/conecta-logo.svg"
             alt="Conecta Logo"
             width={500}
             height={500}
             priority
             className="relative z-10"
-          />       
+          />
           <div className="absolute -inset-4 md:-inset-6 lg:-inset-10 bg-lime-500/20 blur-[50px] md:blur-[100px] rounded-full z-0"></div>
         </div>
         {/* Mensaje más bonito y responsivo */}
@@ -29,7 +29,6 @@ export default async function Login() {
           RECONECTA <br className="block md:hidden" /> CON EL MUNDO
         </p>
       </div>
-      
 
       {/* Parte derecha (Formulario de Inicio de Sesión) */}
       <div className="md:w-1/2 max-w-md">

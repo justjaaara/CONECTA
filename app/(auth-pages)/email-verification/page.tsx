@@ -6,10 +6,10 @@ import { hasProfile, isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 
 export default async function EmailVerificationPage() {
-  const { status, session } = await isLoggedIn();
+  const { status, user } = await isLoggedIn();
 
-  if (status && session) {
-    const profileExists = await hasProfile(session);
+  if (status && user) {
+    const profileExists = await hasProfile(user);
     if (profileExists.status) {
       // Si ya tiene perfil, redireccionar a la página de dashboard
       redirect("/protected/dashboard");

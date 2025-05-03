@@ -8,20 +8,19 @@ import { isLoggedIn, hasProfile } from "@/app/actions";
 
 export default async function CompleteProfile() {
   const loggedIn = await isLoggedIn();
-  console.log("🚀 ~ CompleteProfile ~ loggedIn:", loggedIn.session?.user.id);
 
-  if (!loggedIn.status || !loggedIn.session?.user) {
+  if (!loggedIn.status || !loggedIn.user) {
     // Si no hay sesión, redireccionar a sign-in
     return redirect("/sign-in");
   }
-  const profile = await hasProfile(loggedIn.session);
+  const profile = await hasProfile(loggedIn.user);
   if (profile.status) {
     // Si ya tiene perfil, redireccionar a la página de dashboard
     return redirect("/protected/dashboard");
   }
   // Si no tiene perfil, continuar con la creación del perfil
 
-  const user = loggedIn.session?.user;
+  const user = loggedIn.user;
 
   return (
     <div className="flex min-h-screen bg-black w-full">
