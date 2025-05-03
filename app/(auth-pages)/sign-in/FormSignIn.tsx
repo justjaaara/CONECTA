@@ -33,7 +33,7 @@ export default function FormSignIn() {
       logInAction(formData).then((result) => {
         if (result.status === "error") {
           setIsloading(false);
-          throw new Error(result.message || "An unexpected error occurred.");
+          throw new Error(result.message || "Ocurrió un error inesperado.");
         }
 
         if (result.path && result.status === "success") {
@@ -77,7 +77,10 @@ export default function FormSignIn() {
         </h1>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 md:space-y-6"
+          >
             <p className="text-sm text-white mb-1 md:mb-2">
               Ingrese el correo registrado del titular de hogar establecido
             </p>
@@ -100,7 +103,9 @@ export default function FormSignIn() {
                 </FormItem>
               )}
             />
-            <p className="text-sm text-white mb-1 md:mb-2">Ahora la contraseña</p>
+            <p className="text-sm text-white mb-1 md:mb-2">
+              Ahora la contraseña
+            </p>
             <FormField
               control={form.control}
               name="password"
@@ -123,13 +128,16 @@ export default function FormSignIn() {
             />
 
             <div className="text-center">
-            <p className="text-sm text-white">
-              Si la olvidaste, haz click&nbsp;
-              <Link href="/forgot-password" className="text-lime-500 underline hover:text-lime-300">Aquí</Link>
-            </p>
-
+              <p className="text-sm text-white">
+                Si la olvidaste, haz click&nbsp;
+                <Link
+                  href="/forgot-password"
+                  className="text-lime-500 underline hover:text-lime-300"
+                >
+                  Aquí
+                </Link>
+              </p>
             </div>
-
 
             <Button
               type="submit"
