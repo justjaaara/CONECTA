@@ -3,10 +3,10 @@ import { z } from "zod";
 export const SignInSchema = z.object({
   email: z
     .string()
-    .email({ message: "Invalid email address" })
-    .max(100, { message: "Email must be less than 100 characters" }),
+    .email({ message: "Correo electrónico inválido" })
+    .max(100, { message: "El correo debe tener menos de 100 caracteres" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .max(100, { message: "Password must be less than 100 characters" }),
+    .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
+    .max(100, { message: "La contraseña debe tener menos de 100 caracteres" }),
 });
