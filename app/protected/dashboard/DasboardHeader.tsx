@@ -6,12 +6,14 @@ import Image from "next/image";
 export const DasboardHeader = async () => {
   let userName = "conecta";
   let name = "Conecta";
+  let lastName = "";
   let avatar = "/placeholder.svg?height=40&width=40";
   const { status, session } = await getCurrentSession();
   if (status && session) {
     const { profile } = await getProfile(session);
     userName = profile.username;
     name = profile.name;
+    lastName = profile.last_name;
     avatar = profile.profile_pic_url;
   }
 
@@ -40,7 +42,9 @@ export const DasboardHeader = async () => {
       </nav>
       <div className="flex items-center space-x-2">
         <div className="text-right mr-2">
-          <div className="font-medium">{name}</div>
+          <div className="font-medium">
+            {name} {lastName}
+          </div>
           <div className="text-xs text-gray-400">@{userName}</div>
         </div>
         <Avatar className="h-10 w-10 border border-gray-700 text-black">
