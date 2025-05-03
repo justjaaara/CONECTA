@@ -47,8 +47,10 @@ export default function FormSignUp() {
           throw new Error(result.message || "Ocurrió un error inesperado.");
         }
 
-        if (result.path && result.status === "success") {
-          router.push(result.path);
+        if (result.status === "success") {
+          setTimeout(() => {
+            router.push("/email-verification");
+          }, 1000);
         }
 
         return result;
@@ -81,7 +83,10 @@ export default function FormSignUp() {
         </h1>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 md:space-y-6"
+          >
             <p className="text-sm text-white">Correo electrónico</p>
             <FormField
               control={form.control}
