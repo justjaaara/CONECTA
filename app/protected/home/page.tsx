@@ -1,9 +1,9 @@
 import CardGrid from "@/app/protected/home/Cards";
-import type { Card } from "@/app/protected/home/Cards";
+import type { Device } from "@/app/protected/home/Cards";
 import { getCurrentSession, getDevices } from "@/app/actions";
 
 async function MyHome() {
-  let cards: Card[] = [];
+  let cards: Device[] = [];
   const { user } = await getCurrentSession();
   if (user) {
     const { status, devices } = await getDevices(user);

@@ -188,3 +188,37 @@ export const getDevices = async (user: User) => {
     devices: devices || [],
   };
 };
+
+type Device = {
+  deviceId: string;
+  deviceName: string;
+  deviceLocation: string;
+};
+
+export const insertDevice = async (device: Device, user: User) => {
+  const supabase = await createClient();
+
+  const { deviceId, deviceName, deviceLocation } = device;
+  const { data, error } = await supabase
+    .from("devices")
+    .insert([
+      {
+        device_id: deviceId,
+        device_name: deviceName,
+        location: deviceLocation,
+        user_id_associated: user.id,
+      },
+    ])
+    .select();
+  if (error) {
+    console.error(error.message);
+    return {
+      status: false,
+      data: null,
+    };
+  }
+  return {
+    status: true,
+    data,
+  };
+};

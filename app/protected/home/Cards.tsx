@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AddDeviceSchema } from "@/validations/AddDeviceSchema";
-
+import { getCurrentSession, insertDevice } from "../../actions";
 import {
   Select,
   SelectContent,
@@ -23,14 +23,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 type Inputs = {
-  deviceName: string;
   deviceId: string;
+  deviceName: string;
   deviceLocation: string;
 };
 
-export type Card = {
+export type Device = {
   id: string;
   title: string;
   content: string;
@@ -38,9 +39,9 @@ export type Card = {
   isForm?: boolean; // Nueva propiedad para identificar cards de formularios
 };
 
-const CardGrid = ({ initialCards }: { initialCards: Card[] }) => {
+const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [cards, setCards] = useState<Card[]>(initialCards);
+  const [cards, setCards] = useState<Device[]>(initialCards);
   const [showForm, setShowForm] = useState(false);
 
   const form = useForm<Inputs>({
@@ -52,24 +53,57 @@ const CardGrid = ({ initialCards }: { initialCards: Card[] }) => {
     },
   });
 
-  const onSubmit = form.handleSubmit((data) => {
+  const onSubmit = form.handleSubmit(async (data) => {
     setIsLoading(true);
 
-    // Simulamos una operación asíncrona
-    setTimeout(() => {
-      // Creamos una nueva card con los datos del formulario
-      const newCard = {
-        id: data.deviceId,
-        title: data.deviceName,
-        content: "Acá ira información de medidas del dispositivo",
-        deviceLocation: data.deviceLocation,
-      };
+    // Verificar primero si el usuario está autenticado
+    const { status, user } = await getCurrentSession();
 
-      setCards([...cards, newCard]);
-      setShowForm(false);
-      form.reset();
+    if (!status || !user) {
+      toast.error("No estás autenticado. Por favor inicia sesión.");
       setIsLoading(false);
-    }, 1000);
+      return;
+    }
+
+    // Crear el objeto newCard fuera para que esté disponible en el scope externo
+    const newCard = {
+      id: data.deviceId,
+      title: data.deviceName,
+      content: "Acá ira información de medidas del dispositivo",
+      deviceLocation: data.deviceLocation,
+    };
+
+    // Usar toast.promise para manejar la operación asíncrona
+    await toast.promise(
+      // Primera parte: La promesa a ejecutar
+      insertDevice(data, user),
+
+      // Segunda parte: Los mensajes para diferentes estados
+      {
+        loading: "Agregando dispositivo...",
+        success: (result) => {
+          // Este callback se ejecuta cuando la promesa se resuelve exitosamente
+          if (result.status) {
+            // Actualizar la UI solo en caso de éxito
+            setCards([...cards, newCard]);
+            setShowForm(false);
+            form.reset();
+            return `Dispositivo "${data.deviceName}" agregado correctamente`;
+          } else {
+            // Si el resultado tiene status false, rechazamos la promesa para ir al catch
+            throw new Error("Error al agregar dispositivo");
+          }
+        },
+        error: (err) => {
+          // Este callback se ejecuta cuando la promesa es rechazada
+          console.error("Error al agregar dispositivo:", err);
+          return `Error al agregar dispositivo: ${err.message || "Intente nuevamente"}`;
+        },
+      }
+    );
+
+    // Siempre desactivamos el loading al finalizar
+    setIsLoading(false);
   });
 
   const addNewCard = () => {
@@ -165,14 +199,14 @@ const CardGrid = ({ initialCards }: { initialCards: Card[] }) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="bg-black text-white">
-                          <SelectItem value="kitchen">Cocina</SelectItem>
-                          <SelectItem value="bathroom">Baño</SelectItem>
-                          <SelectItem value="bedroom">Dormitorio</SelectItem>
-                          <SelectItem value="living-room">Sala</SelectItem>
-                          <SelectItem value="garage">Garaje</SelectItem>
-                          <SelectItem value="garden">Jardín</SelectItem>
-                          <SelectItem value="office">Oficina</SelectItem>
-                          <SelectItem value="balcony">Balcón</SelectItem>
+                          <SelectItem value="Cocina">Cocina</SelectItem>
+                          <SelectItem value="Baño">Baño</SelectItem>
+                          <SelectItem value="Dormitorio">Dormitorio</SelectItem>
+                          <SelectItem value="Sala">Sala</SelectItem>
+                          <SelectItem value="Garaje">Garaje</SelectItem>
+                          <SelectItem value="Jardín">Jardín</SelectItem>
+                          <SelectItem value="Oficina">Oficina</SelectItem>
+                          <SelectItem value="Balcón">Balcón</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-500 animate-pulse" />
