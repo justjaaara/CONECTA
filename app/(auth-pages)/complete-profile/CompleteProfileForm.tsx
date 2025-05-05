@@ -59,7 +59,6 @@ export default function CompleteProfileForm({ user }: { user: User }) {
         username: profileUsername,
         phone: profilePhone,
       });
-      console.log(error);
       if (error) {
         toast.dismiss("profile-save");
         toast.error("Error al guardar el perfil", {

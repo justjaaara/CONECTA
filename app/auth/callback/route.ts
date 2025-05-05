@@ -30,7 +30,6 @@ export async function GET(request: Request) {
       // Si no tiene perfil, redireccionar a la página de verificación
       // donde verá el botón para completar su perfil
       if (!profile || error) {
-        console.log(error, profile, "ERRORRRRRRRRRRR");
         return NextResponse.redirect(`${origin}/complete-profile`);
       }
       // Si tiene perfil, redireccionar a la página de dashboard

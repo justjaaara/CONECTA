@@ -30,22 +30,17 @@ type Inputs = {
   deviceLocation: string;
 };
 
-type Card = {
+export type Card = {
   id: string;
   title: string;
   content: string;
+  deviceLocation: string;
   isForm?: boolean; // Nueva propiedad para identificar cards de formularios
 };
 
-const CardGrid = () => {
+const CardGrid = ({ initialCards }: { initialCards: Card[] }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [cards, setCards] = useState<Card[]>([
-    {
-      id: "1",
-      title: "Dispositivo del hogar",
-      content: "Este dispositivo no está configurado",
-    },
-  ]);
+  const [cards, setCards] = useState<Card[]>(initialCards);
   const [showForm, setShowForm] = useState(false);
 
   const form = useForm<Inputs>({
@@ -66,7 +61,8 @@ const CardGrid = () => {
       const newCard = {
         id: data.deviceId,
         title: data.deviceName,
-        content: `Este dispositivo está ubicado en ${data.deviceLocation}`,
+        content: "Acá ira información de medidas del dispositivo",
+        deviceLocation: data.deviceLocation,
       };
 
       setCards([...cards, newCard]);
@@ -94,6 +90,11 @@ const CardGrid = () => {
             <h3 className="font-semibold text-lg mb-2 text-lime-300">
               {card.title}
             </h3>
+
+            <span className="text-sm text-gray-500">
+              Ubicación: {card.deviceLocation}
+            </span>
+
             <p className="text-gray-600">{card.content}</p>
           </div>
         ))}
