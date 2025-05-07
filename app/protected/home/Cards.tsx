@@ -1,4 +1,5 @@
 "use client";
+import { IoMdClose } from "react-icons/io";
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
@@ -15,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AddDeviceSchema } from "@/validations/AddDeviceSchema";
-import { getCurrentSession, insertDevice } from "../../actions";
+import { getCurrentSession, insertDevice, removeDevice } from "../../actions";
 import {
   Select,
   SelectContent,
@@ -52,6 +53,30 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
       deviceLocation: "",
     },
   });
+
+  const handleDeleteDevice = async (deviceId: string) => {
+    console.log("ID del dispositivo a eliminar:", deviceId);
+    const { status, user } = await getCurrentSession();
+    if (!status || !user) {
+      toast.error("No estás autenticado.");
+      return;
+    }
+    const userId = user?.id;
+
+    if (!deviceId) {
+      toast.error("ID de dispositivo no válido.");
+      return;
+    }
+
+    const { status: deleteStatus } = await removeDevice(deviceId, userId);
+    console.log(deleteStatus);
+    if (deleteStatus) {
+      setCards((prevCards) => prevCards.filter((card) => card.id !== deviceId));
+      toast.success("Dispositivo eliminado correctamente.");
+    } else {
+      toast.error("Error al eliminar el dispositivo.");
+    }
+  };
 
   const onSubmit = form.handleSubmit(async (data) => {
     setIsLoading(true);
@@ -121,9 +146,17 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
             key={card.id}
             className="bg-black shadow-md rounded-lg p-4 border border-lime-200"
           >
-            <h3 className="font-semibold text-lg mb-2 text-lime-300">
-              {card.title}
-            </h3>
+            <div className="flex flex-row justify-between">
+              <h3 className="font-semibold text-lg mb-2 text-lime-300">
+                {card.title}
+              </h3>
+              <Button
+                className="bg-transparent hover:bg-transparent"
+                onClick={() => handleDeleteDevice(card.id)}
+              >
+                <IoMdClose className="text-red-600 text-xl" />
+              </Button>
+            </div>
 
             <span className="text-sm text-gray-500">
               Ubicación: {card.deviceLocation}

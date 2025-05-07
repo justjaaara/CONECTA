@@ -222,3 +222,23 @@ export const insertDevice = async (device: Device, user: User) => {
     data,
   };
 };
+
+export const removeDevice = async (deviceId: string, userId: string) => {
+  console.log("🚀 ~ removeDevice ~ userId:", userId);
+  console.log("🚀 ~ removeDevice ~ deviceId:", deviceId);
+
+  const deviceIdNumber = Number(deviceId);
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.rpc("delete_device_and_measurements", {
+    p_device_id: deviceIdNumber, // tipo number
+    p_user_id: userId, // tipo string (uuid)
+  });
+
+  if (error) {
+    console.error("Error during RPC call:", error.message);
+    return { status: false };
+  }
+
+  return { status: data }; // true si se eliminó, false si no coincidía
+};
