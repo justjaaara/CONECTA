@@ -1,6 +1,6 @@
 import { DasboardHeader } from "./DasboardHeader";
 import Image from "next/image";
-import { BedDouble, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Utensils } from "lucide-react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -104,37 +104,37 @@ export default function DashboardPage() {
 
           {/* Total Energy Consumption */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-            <h2 className="text-2xl font-bold mb-6">
+            <h2 className="text-xl font-semibold mb-4">
               Consumo de Energía Total
             </h2>
 
-            {/* Labels */}
-            <div className="flex justify-between text-sm text-gray-300 mb-4">
-              <div className="flex items-center font-semibold">
-                Microondas <ChevronUp className="ml-1 h-3 w-3" />
+            <div className="grid grid-cols-3 gap-4 text-sm text-gray-300 mb-6 text-center">
+              {/* Microondas */}
+              <div>
+                <div className="flex items-center justify-center font-semibold mb-2">
+                  Microondas <ChevronUp className="ml-1 h-3 w-3" />
+                </div>
+                <div className="text-3xl font-semibold">5-6</div>
+                <div className="text-sm text-gray-400">Kwh por mes</div>
               </div>
-              <div className="flex items-center font-semibold">
-                Nevera <ChevronDown className="ml-1 h-3 w-3" />
-              </div>
-              <div className="flex items-center font-semibold">
-                Aire AC <ChevronUp className="ml-1 h-3 w-3" />
-              </div>
-            </div>
 
-            {/* Values */}
-            <div className="grid grid-cols-3 text-center mb-6">
+              {/* Nevera */}
               <div>
-                <div className="text-3xl font-extrabold">5-6</div>
+                <div className="flex items-center justify-center font-semibold mb-2">
+                  Nevera <ChevronDown className="ml-1 h-3 w-3" />
+                </div>
+                <div className="text-3xl font-semibold">29-71</div>
                 <div className="text-sm text-gray-400">Kwh por mes</div>
               </div>
+
+              {/* Aire AC */}
               <div>
-                <div className="text-3xl font-extrabold">29-71</div>
+                <div className="flex items-center justify-center font-semibold mb-2">
+                  Aire AC <ChevronUp className="ml-1 h-3 w-3" />
+                </div>
+                <div className="text-3xl font-semibold">37-63</div>
                 <div className="text-sm text-gray-400">Kwh por mes</div>
-              </div>
-              <div>
-                <div className="text-3xl font-extrabold">37-63</div>
-                <div className="text-sm text-gray-400">Kwh por mes</div>
-              </div>
+              </div>  
             </div>
 
             {/* Tabs */}
@@ -171,7 +171,7 @@ export default function DashboardPage() {
                   }}
                 ></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <BedDouble className="h-16 w-16 text-[#c1ff00]" />
+                  <Utensils className="h-16 w-16 text-[#c1ff00]" />
                 </div>
               </div>
               <div className="text-6xl font-bold text-[#c1ff00] ml-6">50%</div>
@@ -182,17 +182,17 @@ export default function DashboardPage() {
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
             <h2 className="text-xl font-semibold mb-2">Recomendaciones</h2>
             <p className="text-sm text-gray-400 mb-4">
-              Tips personalizados para optimizar energía
+              Consejos personalizados para optimizar energía
             </p>
 
             <div className="space-y-4">
               <div className="bg-[#c1ff00] text-black p-4 rounded-lg">
                 <p className="font-medium">
-                  Desconecta electrodomésticos que no uses
+                  Desconecta los electrodomésticos que no uses
                 </p>
               </div>
 
-              <div className="bg-black border border-gray-800 p-4 rounded-lg">
+              <div className="bg-[#c1ff00]/20 border border-gray-800 p-4 rounded-lg">
                 <p className="font-medium">
                   Aprovecha al máximo la luz natural
                 </p>

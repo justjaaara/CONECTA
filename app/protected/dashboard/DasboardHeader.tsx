@@ -34,15 +34,18 @@ export const DasboardHeader = ({
 
   return (
     <header className="flex items-center justify-between border-b border-gray-800 pb-4">
-      <div className="flex items-center space-x-2">
-        <Image
-          src="/conecta-logo.svg"
-          alt="CONECTA Logo"
-          width={180}
-          height={50}
-          className="h-12 w-auto"
-        />
+      <div className="flex items-center space-x-2 h-12 overflow-hidden">
+        <Link href="/protected/dashboard">
+          <Image
+            src="/conecta-logo.svg"
+            alt="CONECTA Logo"
+            width={220} // puedes ajustar este ancho según se vea mejor
+            height={60}
+            className="h-16 w-auto"
+          />
+        </Link>
       </div>
+
       <nav className="hidden md:flex items-center space-x-8">
         <Link
           href="/protected/dashboard"
@@ -82,12 +85,14 @@ export const DasboardHeader = ({
           </div>
           <div className="text-xs text-gray-400">@{userName}</div>
         </div>
-        <Avatar className="h-10 w-10 border border-gray-700 text-black">
-          <AvatarImage src={avatar} alt={name} />
-          <AvatarFallback>
-            {(name?.substring(0, 1) || "C") + (lastName?.substring(0, 1) || "")}
-          </AvatarFallback>
-        </Avatar>
+        <div className="flex justify-center">
+          <Avatar className="h-10 w-10 border border-gray-700 text-black">
+            <AvatarImage src={avatar} alt={name} />
+            <AvatarFallback>
+              {(name?.substring(0, 1) || "C") + (lastName?.substring(0, 1) || "")}
+            </AvatarFallback>
+          </Avatar>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <ChevronDown className="h-5 w-4 text-gray-400" />
@@ -97,10 +102,14 @@ export const DasboardHeader = ({
             <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Perfil</DropdownMenuItem>
-            <DropdownMenuItem>Subscripción</DropdownMenuItem>
             <DropdownMenuItem asChild>
               <button className="w-full text-left" onClick={signOutAction}>
-                Cerrar sesión
+                  Cerrar sesión
+              </button>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <button className="w-full text-left">
+              <Link href="/protected/subscription">Suscripción</Link>
               </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
