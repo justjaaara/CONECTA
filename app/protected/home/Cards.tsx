@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import PowerChartComponent from "./PowerChartComponent";
 
 type Inputs = {
   deviceId: string;
@@ -35,7 +36,12 @@ type Inputs = {
 export type Device = {
   id: string;
   title: string;
-  content: string;
+  content?: React.ReactNode;
+  chartData: {
+    device_id: number;
+    month: string;
+    total_power: number;
+  }[];
   deviceLocation: string;
   isForm?: boolean; // Nueva propiedad para identificar cards de formularios
 };
@@ -94,7 +100,8 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
     const newCard = {
       id: data.deviceId,
       title: data.deviceName,
-      content: "Acá ira información de medidas del dispositivo",
+      chartData: [], // <-- inicializa vacío o con datos reales si los tienes
+
       deviceLocation: data.deviceLocation,
     };
 
@@ -162,7 +169,9 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
               Ubicación: {card.deviceLocation}
             </span>
 
-            <p className="text-gray-600">{card.content}</p>
+            <div className="text-gray-600">
+              {<PowerChartComponent data={card.chartData} />}
+            </div>
           </div>
         ))}
 

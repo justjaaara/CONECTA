@@ -242,3 +242,24 @@ export const removeDevice = async (deviceId: string, userId: string) => {
 
   return { status: data }; // true si se eliminó, false si no coincidía
 };
+
+export const getMonthlyMeasurements = async (deviceId: string) => {
+  const deviceIdNumber = Number(deviceId);
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_monthly_power_consumption", {
+    p_device_id: deviceIdNumber,
+  });
+
+  if (error) {
+    console.error(error.message);
+    return {
+      status: false,
+      measurements: [],
+    };
+  }
+
+  return {
+    status: true,
+    measurements: data || [],
+  };
+};
