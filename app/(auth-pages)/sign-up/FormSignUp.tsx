@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { signUpAction } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import PasswordInput from "@/components/Input/PasswordInput";
 
 type Inputs = {
   email: string;
@@ -112,8 +113,7 @@ export default function FormSignUp() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      type="password"
+                    <PasswordInput
                       placeholder="••••••••••"
                       {...field}
                       className="py-5 bg-[#0D0E0A] border border-gray-500 text-white focus-visible:ring-lime-700"
@@ -131,8 +131,7 @@ export default function FormSignUp() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      type="password"
+                    <PasswordInput
                       placeholder="••••••••••"
                       {...field}
                       className="py-5 bg-[#0D0E0A] border border-gray-500 text-white focus-visible:ring-lime-700"

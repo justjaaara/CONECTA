@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { logInAction } from "@/app/actions";
 import { useRouter } from "next/navigation";
+import PasswordInput from "@/components/Input/PasswordInput";
 
 type Inputs = {
   email: string;
@@ -112,12 +113,18 @@ export default function FormSignIn() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <PasswordInput
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
+                      placeholder="***********"
+                      {...field}
+                    />
+
+                    {/* <Input
                       type="password"
                       placeholder="••••••••••"
                       {...field}
                       className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
-                    />
+                    /> */}
                   </FormControl>
                   <FormMessage
                     className="text-red-500 animate-pulse text-xs md:text-sm"
