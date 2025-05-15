@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import type { Session, User } from "@supabase/supabase-js";
+import { cache } from "react";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -263,3 +264,15 @@ export const getMonthlyMeasurements = async (deviceId: string) => {
     measurements: data || [],
   };
 };
+
+export const getCurrentSessionCached = cache(async () => {
+  return getCurrentSession();
+});
+
+export const getDevicesCached = cache(async (user: User) => {
+  return getDevices(user);
+});
+
+export const getMonthlyMeasurementsCached = cache(async (deviceId: string) => {
+  return getMonthlyMeasurements(deviceId);
+});

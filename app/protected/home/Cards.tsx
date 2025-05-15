@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import PowerChartComponent from "./PowerChartComponent";
+import PowerChartComponent from "@/components/PowerChartComponent";
 
 type Inputs = {
   deviceId: string;
@@ -44,6 +44,20 @@ export type Device = {
   }[];
   deviceLocation: string;
   isForm?: boolean; // Nueva propiedad para identificar cards de formularios
+};
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black/90 border border-lime-400 rounded p-2 text-lime-400">
+        <p className="font-semibold">{label}</p>
+        <p>
+          Consumo: <span className="font-bold">{payload[0].value} kWh</span>
+        </p>
+      </div>
+    );
+  }
+  return null;
 };
 
 const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
@@ -170,7 +184,12 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
             </span>
 
             <div className="text-gray-600">
-              {<PowerChartComponent data={card.chartData} />}
+              {
+                <PowerChartComponent
+                  customTooltip={CustomTooltip}
+                  data={card.chartData}
+                />
+              }
             </div>
           </div>
         ))}

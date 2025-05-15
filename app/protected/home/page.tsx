@@ -1,22 +1,23 @@
 import CardGrid from "@/app/protected/home/Cards";
 import type { Device } from "@/app/protected/home/Cards";
 import {
-  getCurrentSession,
-  getDevices,
-  getMonthlyMeasurements,
+  getCurrentSessionCached,
+  getDevicesCached,
+  getMonthlyMeasurementsCached,
 } from "@/app/actions";
-import PowerChartComponent from "./PowerChartComponent";
+
+export const revalidate = 1800;
 
 async function MyHome() {
   let cards: Device[] = [];
-  const { user } = await getCurrentSession();
+  const { user } = await getCurrentSessionCached();
   if (user) {
-    const { status, devices } = await getDevices(user);
+    const { status, devices } = await getDevicesCached(user);
     if (status && devices) {
       // Para cada dispositivo, obtenemos sus mediciones mensuales
       cards = await Promise.all(
         devices.map(async (device) => {
-          const { measurements } = await getMonthlyMeasurements(
+          const { measurements } = await getMonthlyMeasurementsCached(
             device.device_id
           );
           return {

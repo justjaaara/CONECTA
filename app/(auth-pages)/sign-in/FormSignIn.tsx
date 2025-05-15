@@ -126,6 +126,11 @@ export default function FormSignIn() {
                 </FormItem>
               )}
             />
+            <Button
+              variant={"eyeBtn"}
+              type="submit"
+              className="absolute "
+            ></Button>
 
             <div className="text-center">
               <p className="text-sm text-white">
