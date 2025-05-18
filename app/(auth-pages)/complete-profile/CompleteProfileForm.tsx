@@ -87,24 +87,24 @@ export default function CompleteProfileForm({ user }: { user: User }) {
       <div className="w-full max-w-md space-y-8">
         {/* Título */}
         <h1 className="text-3xl font-bold text-center text-white mb-8">
-          Completa tu regsitro...
+          Completa tu registro
         </h1>
 
         <Form {...form}>
-          <form onSubmit={onSubmit} className="space-y-2">
-            <FormLabel className="text-sm text-white mb-2">
-              Nombre de usuario
-            </FormLabel>
+          <form onSubmit={onSubmit} className="space-y-3">
             <FormField
               control={form.control}
               name="profileUsername"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-sm text-white">
+                  Nombre de usuario
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="ejemplo@conecta.com"
+                      placeholder="conecta123"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
                   <FormMessage
@@ -114,18 +114,18 @@ export default function CompleteProfileForm({ user }: { user: User }) {
                 </FormItem>
               )}
             />
-            <FormLabel className="text-sm text-white mb-2">Nombre</FormLabel>
             <FormField
               control={form.control}
               name="profileName"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-sm text-white mb-2">Nombre</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
                       placeholder="John"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
                   <FormMessage
@@ -135,18 +135,18 @@ export default function CompleteProfileForm({ user }: { user: User }) {
                 </FormItem>
               )}
             />
-            <FormLabel className="text-sm text-white mb-2">Apellido</FormLabel>
             <FormField
               control={form.control}
               name="profileSurname"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-sm text-white mb-2">Apellido</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
                       placeholder="Doe"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
                   <FormMessage
@@ -156,18 +156,18 @@ export default function CompleteProfileForm({ user }: { user: User }) {
                 </FormItem>
               )}
             />
-            <FormLabel className="text-sm text-white mb-2">Celular</FormLabel>
             <FormField
               control={form.control}
               name="profilePhone"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-sm text-white">Celular</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
                       placeholder="3134246478"
                       {...field}
-                      className="bg-transparent border border-gray-600 text-white focus-visible:ring-lime-500"
+                      className="py-5 bg-[#0D0E0A] backdrop-opacity-10 border-gray-500 text-white focus-visible:ring-lime-700"
                     />
                   </FormControl>
                   <FormMessage
@@ -180,7 +180,7 @@ export default function CompleteProfileForm({ user }: { user: User }) {
 
             <Button
               type="submit"
-              className="w-full bg-lime-500 hover:bg-lime-600 text-black"
+              className="w-full bg-[#0D0E0A] border border-lime-500 hover:bg-lime-600 hover:text-black text-lime-500 font-medium text-center"
               disabled={isLoading}
             >
               {isLoading ? (

@@ -1,8 +1,30 @@
+"use client";
+
 import { DasboardHeader } from "./DasboardHeader";
 import Image from "next/image";
 import { ChevronDown, ChevronUp, Utensils } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+const data = [
+  { name: "Lun", value: 276 },
+  { name: "Mar", value: 286 },
+  { name: "Mié", value: 298 },
+  { name: "Jue", value: 246 },
+  { name: "Vie", value: 276 },
+  { name: "Sáb", value: 274 },
+  { name: "Dom", value: 326 },
+]
 
 export default function DashboardPage() {
   return (
@@ -23,84 +45,47 @@ export default function DashboardPage() {
           </div>
 
           {/* Weekly Energy Consumption */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Seguimiento Semanal</h2>
-            <p className="text-sm text-gray-400 mb-6">
-              Gráficas de consumo de energía
-            </p>
-
-            <div className="flex justify-between text-xs text-gray-400 mb-2">
-              <div className="flex items-center">
-                Lun <ChevronDown className="h-3 w-3 ml-1" />
+          <Card className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl px-1 md:row-span-1 text-white shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold mb-2">Seguimiento Semanal</CardTitle>
+              <p className="text-sm text-gray-400">Gráficas de consumo de energía</p>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={100}>
+                <BarChart accessibilityLayer data={data}>
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                  <YAxis hide />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="bg-[#0D0E0A]/30 p-1 rounded shadow text-white text-sm">
+                            {payload[0].value} kWh
+                          </div>
+                        )
+                      }
+                      return null
+                    }}
+                  />
+                  <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                    {data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={entry.name === "Sáb" ? "#C6FF00" : "#1E2632"}
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="flex justify-between text-xs text-muted-foreground">
+                {data.map((day, i) => (
+                  <div key={i} className="text-center w-full">
+                    <div>{day.value} kWh</div>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center">
-                Mar <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Mié <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Jue <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Vie <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Sáb <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Dom <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-            </div>
-
-            <div className="flex justify-between items-end h-16 mb-2">
-              <div className="w-8 bg-gray-800 rounded-sm h-12"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-10"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-14"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-8"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-12"></div>
-              <div className="w-8 bg-[#c1ff00] rounded-sm h-10"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-14"></div>
-            </div>
-
-            <div className="flex justify-between text-xs text-gray-400">
-              <div>
-                276
-                <br />
-                kWh
-              </div>
-              <div>
-                286
-                <br />
-                kWh
-              </div>
-              <div>
-                298
-                <br />
-                kWh
-              </div>
-              <div>
-                246
-                <br />
-                kWh
-              </div>
-              <div>
-                276
-                <br />
-                kWh
-              </div>
-              <div>
-                274
-                <br />
-                kWh
-              </div>
-              <div>
-                326
-                <br />
-                kWh
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Total Energy Consumption */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">

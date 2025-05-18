@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { hasProfile, isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export default async function EmailVerificationPage() {
   const { status, user } = await isLoggedIn();
@@ -40,20 +41,29 @@ export default async function EmailVerificationPage() {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-white">"Verifica tu correo"</h1>
+        <h1 className="text-3xl font-bold text-white">Verifica tu correo  </h1>
 
         <p className="text-white/70 mb-6">
-          "Hemos enviado un enlace de verificación a tu correo electrónico. Por
+          Hemos enviado un enlace de verificación a tu correo electrónico. Por
           favor, revisa tu bandeja de entrada y haz clic en el enlace para
-          activar tu cuenta."
+          activar tu cuenta.
         </p>
 
-        <div className="bg-black/30 p-4 rounded-lg border border-lime-500/20 text-sm text-white/60">
+        <div className="bg-black/30 p-4 rounded-lg border border-lime-500/60 text-sm text-white/60">
           <p>
             Si no recibes el correo en unos minutos, revisa tu carpeta de spam o
             correo no deseado.
           </p>
         </div>
+        <Link href="/" className="inline-block">
+          <Button
+            variant="outline"
+            className="mt-6 bg-[#0D0E0A] border border-lime-500 hover:bg-lime-600 hover:text-black text-lime-500 inline-flex items-center"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Regresar
+          </Button>
+        </Link>
       </div>
     </div>
   );

@@ -108,9 +108,11 @@ export const DasboardHeader = ({
               </button>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <button className="w-full text-left">
-              <Link href="/protected/subscription">Suscripción</Link>
-              </button>
+              <Link href="/protected/subscription" className="block w-full">
+                <button className="w-full text-left cursor-default">
+                  Suscripción
+                </button>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
