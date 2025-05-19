@@ -6,17 +6,24 @@ import {
   getCurrentSessionCached,
   getDevicesCached,
   getUserWeeklyMeasurementsCached,
+  getUserYearlyMeasurementsCached,
 } from "@/app/actions";
 import WeeklyPowerChart from "@/components/WeeklyPowerChartComponent";
 import { measurement } from "@/types/types";
 
 async function DashboardPage() {
   let measurements: measurement[] = [];
+  let yearlyConsumption = 0;
   const { user } = await getCurrentSessionCached();
   if (user) {
+    const userId = user.id;
+    const { yearly_consumption, status: yearlyStatus } =
+      await getUserYearlyMeasurementsCached(userId);
+    if (yearlyStatus && yearly_consumption) {
+      yearlyConsumption = yearly_consumption[0].total_consumption;
+    }
     const { status, devices } = await getDevicesCached(user);
     if (status && devices) {
-      const userId = user.id;
       const response = await getUserWeeklyMeasurementsCached(userId);
       measurements = response.measurements;
     }
@@ -28,13 +35,15 @@ async function DashboardPage() {
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {/* Current Energy Consumption */}
-          <div className="bg-gradient-to-b from-black to-[#c1ff00]/40 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Seguimiento</h2>
-            <p className="text-sm text-gray-400 mb-6">
-              Energía consumida hasta ahora
+          <div className="bg-gradient-to-b from-black to-[#c1ff00]/40 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl text-center justify-center items-center flex flex-col">
+            <h2 className="text-3xl font-semibold mb-4">
+              Seguimiento Energético Del Año En curso
+            </h2>
+            <p className="text-lg text-gray-400 mb-6">
+              Energía consumida hasta ahora en total:
             </p>
-            <div className="flex items-end">
-              <div className="text-8xl font-bold">5.7</div>
+            <div className="flex flex-row items-center justify-center">
+              <div className="text-6xl font-bold">{yearlyConsumption}</div>
               <div className="text-xl ml-2 mb-2 text-gray-400">kWh</div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { cache } from "react";
-import { measurement } from "@/types/types";
+import { measurement, yearly_measurement } from "@/types/types";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -282,6 +282,26 @@ export const getUserWeeklyMeasurements = async (userId: string) => {
   };
 };
 
+export const getUserYearlyMeasurements = async (userId: string) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_user_yearly_consumption", {
+    user_id_param: userId,
+  });
+
+  if (error) {
+    console.error(error.message);
+    return {
+      status: false,
+      yearly_consumption: [],
+    };
+  }
+
+  return {
+    status: true,
+    yearly_consumption: (data as yearly_measurement[]) || [],
+  };
+};
+
 export const getUserWeeklyMeasurementsCached = cache(async (userId: string) => {
   return getUserWeeklyMeasurements(userId);
 });
@@ -299,3 +319,7 @@ export const getDeviceMonthlyMeasurementsCached = cache(
     return getDeviceMonthlyMeasurements(deviceId);
   }
 );
+
+export const getUserYearlyMeasurementsCached = cache(async (userId: string) => {
+  return getUserYearlyMeasurements(userId);
+});

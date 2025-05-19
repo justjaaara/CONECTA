@@ -3,3 +3,7 @@ export type measurement = {
   day_date: string;
   total_power: number;
 };
+
+export type yearly_measurement = {
+  total_consumption: number;
+};
