@@ -225,9 +225,6 @@ export const insertDevice = async (device: Device, user: User) => {
 };
 
 export const removeDevice = async (deviceId: string, userId: string) => {
-  console.log("🚀 ~ removeDevice ~ userId:", userId);
-  console.log("🚀 ~ removeDevice ~ deviceId:", deviceId);
-
   const deviceIdNumber = Number(deviceId);
   const supabase = await createClient();
 

@@ -19,7 +19,6 @@ async function DashboardPage() {
       const userId = user.id;
       const response = await getUserWeeklyMeasurementsCached(userId);
       measurements = response.measurements;
-      console.log("🚀 ~ DashboardPage ~ measurements:", measurements);
     }
   }
 

@@ -75,7 +75,6 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
   });
 
   const handleDeleteDevice = async (deviceId: string) => {
-    console.log("ID del dispositivo a eliminar:", deviceId);
     const { status, user } = await getCurrentSession();
     if (!status || !user) {
       toast.error("No estás autenticado.");
@@ -89,7 +88,6 @@ const CardGrid = ({ initialCards }: { initialCards: Device[] }) => {
     }
 
     const { status: deleteStatus } = await removeDevice(deviceId, userId);
-    console.log(deleteStatus);
     if (deleteStatus) {
       setCards((prevCards) => prevCards.filter((card) => card.id !== deviceId));
       toast.success("Dispositivo eliminado correctamente.");
