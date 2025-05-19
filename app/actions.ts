@@ -248,7 +248,7 @@ export const getDeviceMonthlyMeasurements = async (deviceId: string) => {
   const deviceIdNumber = Number(deviceId);
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("get_monthly_power_consumption", {
-    user_id_associated_param: deviceIdNumber,
+    p_device_id: deviceIdNumber,
   });
 
   if (error) {
