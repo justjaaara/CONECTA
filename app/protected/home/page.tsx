@@ -3,7 +3,7 @@ import type { Device } from "@/app/protected/home/Cards";
 import {
   getCurrentSessionCached,
   getDevicesCached,
-  getMonthlyMeasurementsCached,
+  getDeviceMonthlyMeasurementsCached,
 } from "@/app/actions";
 
 export const revalidate = 1800;
@@ -17,7 +17,7 @@ async function MyHome() {
       // Para cada dispositivo, obtenemos sus mediciones mensuales
       cards = await Promise.all(
         devices.map(async (device) => {
-          const { measurements } = await getMonthlyMeasurementsCached(
+          const { measurements } = await getDeviceMonthlyMeasurementsCached(
             device.device_id
           );
           return {

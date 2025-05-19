@@ -1,10 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import type { Session, User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { cache } from "react";
+import { measurement } from "@/types/types";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -244,11 +244,11 @@ export const removeDevice = async (deviceId: string, userId: string) => {
   return { status: data }; // true si se eliminó, false si no coincidía
 };
 
-export const getMonthlyMeasurements = async (deviceId: string) => {
+export const getDeviceMonthlyMeasurements = async (deviceId: string) => {
   const deviceIdNumber = Number(deviceId);
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("get_monthly_power_consumption", {
-    p_device_id: deviceIdNumber,
+    user_id_associated_param: deviceIdNumber,
   });
 
   if (error) {
@@ -265,6 +265,30 @@ export const getMonthlyMeasurements = async (deviceId: string) => {
   };
 };
 
+export const getUserWeeklyMeasurements = async (userId: string) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_user_weekly_consumption", {
+    user_id_param: userId,
+  });
+
+  if (error) {
+    console.error(error.message);
+    return {
+      status: false,
+      measurements: [],
+    };
+  }
+
+  return {
+    status: true,
+    measurements: (data as measurement[]) || [],
+  };
+};
+
+export const getUserWeeklyMeasurementsCached = cache(async (userId: string) => {
+  return getUserWeeklyMeasurements(userId);
+});
+
 export const getCurrentSessionCached = cache(async () => {
   return getCurrentSession();
 });
@@ -273,6 +297,8 @@ export const getDevicesCached = cache(async (user: User) => {
   return getDevices(user);
 });
 
-export const getMonthlyMeasurementsCached = cache(async (deviceId: string) => {
-  return getMonthlyMeasurements(deviceId);
-});
+export const getDeviceMonthlyMeasurementsCached = cache(
+  async (deviceId: string) => {
+    return getDeviceMonthlyMeasurements(deviceId);
+  }
+);

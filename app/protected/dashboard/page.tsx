@@ -1,10 +1,28 @@
-import { DasboardHeader } from "./DasboardHeader";
-import Image from "next/image";
 import { ChevronDown, ChevronUp, Utensils } from "lucide-react";
+import { Device } from "@/app/protected/home/Cards";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  getCurrentSessionCached,
+  getDevicesCached,
+  getUserWeeklyMeasurementsCached,
+} from "@/app/actions";
+import WeeklyPowerChart from "@/components/WeeklyPowerChartComponent";
+import { measurement } from "@/types/types";
 
-export default function DashboardPage() {
+async function DashboardPage() {
+  let measurements: measurement[] = [];
+  const { user } = await getCurrentSessionCached();
+  if (user) {
+    const { status, devices } = await getDevicesCached(user);
+    if (status && devices) {
+      const userId = user.id;
+      const response = await getUserWeeklyMeasurementsCached(userId);
+      measurements = response.measurements;
+      console.log("🚀 ~ DashboardPage ~ measurements:", measurements);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="container mx-auto px-4 py-4">
@@ -23,83 +41,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Weekly Energy Consumption */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Seguimiento Semanal</h2>
-            <p className="text-sm text-gray-400 mb-6">
-              Gráficas de consumo de energía
-            </p>
-
-            <div className="flex justify-between text-xs text-gray-400 mb-2">
-              <div className="flex items-center">
-                Lun <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Mar <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Mié <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Jue <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Vie <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Sáb <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-              <div className="flex items-center">
-                Dom <ChevronDown className="h-3 w-3 ml-1" />
-              </div>
-            </div>
-
-            <div className="flex justify-between items-end h-16 mb-2">
-              <div className="w-8 bg-gray-800 rounded-sm h-12"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-10"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-14"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-8"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-12"></div>
-              <div className="w-8 bg-[#c1ff00] rounded-sm h-10"></div>
-              <div className="w-8 bg-gray-800 rounded-sm h-14"></div>
-            </div>
-
-            <div className="flex justify-between text-xs text-gray-400">
-              <div>
-                276
-                <br />
-                kWh
-              </div>
-              <div>
-                286
-                <br />
-                kWh
-              </div>
-              <div>
-                298
-                <br />
-                kWh
-              </div>
-              <div>
-                246
-                <br />
-                kWh
-              </div>
-              <div>
-                276
-                <br />
-                kWh
-              </div>
-              <div>
-                274
-                <br />
-                kWh
-              </div>
-              <div>
-                326
-                <br />
-                kWh
-              </div>
-            </div>
+          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl md:col-span-2">
+            <WeeklyPowerChart data={measurements} color="#c1ff00" />
           </div>
 
           {/* Total Energy Consumption */}
@@ -134,7 +77,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="text-3xl font-semibold">37-63</div>
                 <div className="text-sm text-gray-400">Kwh por mes</div>
-              </div>  
+              </div>
             </div>
 
             {/* Tabs */}
@@ -275,3 +218,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+export default DashboardPage;
