@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { cache } from "react";
 import { measurement, yearly_measurement } from "@/types/types";
+import {
+  DeviceConsumption,
+  ConsumptionSummary,
+} from "@/hooks/useDeviceConsumptionData";
+import type { DeviceConsumptionRecord } from "@/types/types";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -301,6 +306,66 @@ export const getUserYearlyMeasurements = async (userId: string) => {
     yearly_consumption: (data as yearly_measurement[]) || [],
   };
 };
+
+export async function getDeviceConsumptionByPeriod(
+  year: number,
+  month: number
+): Promise<ConsumptionSummary | null> {
+  try {
+    const supabase = await createClient();
+    // Consulta utilizando el procedimiento almacenado
+    const { data, error } = await supabase.rpc(
+      "get_device_consumption_by_period",
+      {
+        p_year: year,
+        p_month: month,
+      }
+    );
+
+    if (error) {
+      console.error("Error al ejecutar el procedimiento almacenado:", error);
+      return null;
+    }
+
+    if (!data || data.length === 0) {
+      return {
+        totalConsumption: 0,
+        deviceConsumption: [],
+        highestConsumption: null,
+        lowestConsumption: null,
+      };
+    }
+
+    // Transformar datos con el tipo correcto
+    const deviceConsumption: DeviceConsumption[] = data.map(
+      (item: DeviceConsumptionRecord) => ({
+        device_id: item.device_id,
+        device_name: item.device_name,
+        consumption:
+          typeof item.consumption === "string"
+            ? parseFloat(item.consumption)
+            : item.consumption,
+        location: item.location,
+      })
+    );
+
+    // Calcular consumo total
+    const totalConsumption = deviceConsumption.reduce(
+      (sum, device) => sum + device.consumption,
+      0
+    );
+
+    return {
+      totalConsumption,
+      deviceConsumption,
+      highestConsumption: null, // Se calculará en la ruta API
+      lowestConsumption: null, // Se calculará en la ruta API
+    };
+  } catch (error) {
+    console.error("Error al obtener el consumo de dispositivos:", error);
+    return null;
+  }
+}
 
 export const getUserWeeklyMeasurementsCached = cache(async (userId: string) => {
   return getUserWeeklyMeasurements(userId);

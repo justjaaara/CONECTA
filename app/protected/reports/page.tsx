@@ -1,8 +1,22 @@
-import { BarChart3, ChevronUp, Download, FileText, Filter, Printer } from "lucide-react"
+import {
+  BarChart3,
+  ChevronUp,
+  Download,
+  FileText,
+  Filter,
+  Printer,
+} from "lucide-react";
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import ReportPeriodComponent from "./ReportPeriodComponent";
 
 export default function ReportesPage() {
   return (
@@ -12,41 +26,14 @@ export default function ReportesPage() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">Reportes</h1>
-            <p className="text-gray-400">Visualiza y analiza tu consumo de energía</p>
+            <p className="text-gray-400">
+              Visualiza y analiza tu consumo de energía
+            </p>
           </div>
         </div>
 
         {/* Report Period Selector */}
-        <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 mb-6 shadow-xl">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-            <h2 className="text-xl font-semibold mb-4 md:mb-0">Período de Reporte</h2>
-            <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3 w-full md:w-auto">
-              <Select defaultValue="mayo">
-                <SelectTrigger className="w-full md:w-[180px] bg-black border-gray-700">
-                  <SelectValue placeholder="Mes" />
-                </SelectTrigger>
-                <SelectContent className="bg-black border-gray-700 text-white">
-                  <SelectItem value="enero">Enero</SelectItem>
-                  <SelectItem value="febrero">Febrero</SelectItem>
-                  <SelectItem value="marzo">Marzo</SelectItem>
-                  <SelectItem value="abril">Abril</SelectItem>
-                  <SelectItem value="mayo">Mayo</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select defaultValue="2025">
-                <SelectTrigger className="w-full md:w-[180px] bg-black border-gray-700">
-                  <SelectValue placeholder="Año" />
-                </SelectTrigger>
-                <SelectContent className="bg-black border-gray-700 text-white">
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2025">2025</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button className="bg-[#c1ff00] text-black hover:bg-[#a8e600]">Generar Reporte</Button>
-            </div>
-          </div>
-        </div>
+        <ReportPeriodComponent />
 
         {/* Report Types */}
         <Tabs defaultValue="consumo" className="mb-6">
@@ -97,26 +84,34 @@ export default function ReportesPage() {
           {/* Daily Consumption */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
             <h2 className="text-xl font-semibold mb-4">Consumo Diario</h2>
-            <p className="text-sm text-gray-400 mb-6">Detalle de consumo por día</p>
+            <p className="text-sm text-gray-400 mb-6">
+              Detalle de consumo por día
+            </p>
 
             <div className="flex justify-between items-end h-40 mb-4">
-              {[8, 12, 9, 15, 10, 14, 11, 13, 9, 16, 12, 10, 14, 9, 11].map((value, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <div
-                    className={`w-4 rounded-sm ${index === 7 ? "bg-[#c1ff00]" : "bg-gray-800"}`}
-                    style={{ height: `${value * 6}px` }}
-                  ></div>
-                  <div className="text-xs text-gray-400 mt-2">{index + 1}</div>
-                </div>
-              ))}
+              {[8, 12, 9, 15, 10, 14, 11, 13, 9, 16, 12, 10, 14, 9, 11].map(
+                (value, index) => (
+                  <div key={index} className="flex flex-col items-center">
+                    <div
+                      className={`w-4 rounded-sm ${index === 7 ? "bg-[#c1ff00]" : "bg-gray-800"}`}
+                      style={{ height: `${value * 6}px` }}
+                    ></div>
+                    <div className="text-xs text-gray-400 mt-2">
+                      {index + 1}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
 
             <div className="flex justify-between items-center">
               <div className="text-sm text-gray-400">
-                Día con mayor consumo: <span className="text-white">8 de Mayo (16 kWh)</span>
+                Día con mayor consumo:{" "}
+                <span className="text-white">8 de Mayo (16 kWh)</span>
               </div>
               <div className="text-sm text-gray-400">
-                Día con menor consumo: <span className="text-white">1 de Mayo (8 kWh)</span>
+                Día con menor consumo:{" "}
+                <span className="text-white">1 de Mayo (8 kWh)</span>
               </div>
             </div>
           </div>
@@ -132,7 +127,10 @@ export default function ReportesPage() {
                   <span className="text-[#c1ff00]">50%</span>
                 </div>
                 <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "50%" }}></div>
+                  <div
+                    className="bg-[#c1ff00] h-2 rounded-full"
+                    style={{ width: "50%" }}
+                  ></div>
                 </div>
               </div>
 
@@ -142,7 +140,10 @@ export default function ReportesPage() {
                   <span className="text-[#c1ff00]">25%</span>
                 </div>
                 <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "25%" }}></div>
+                  <div
+                    className="bg-[#c1ff00] h-2 rounded-full"
+                    style={{ width: "25%" }}
+                  ></div>
                 </div>
               </div>
 
@@ -152,7 +153,10 @@ export default function ReportesPage() {
                   <span className="text-[#c1ff00]">15%</span>
                 </div>
                 <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "15%" }}></div>
+                  <div
+                    className="bg-[#c1ff00] h-2 rounded-full"
+                    style={{ width: "15%" }}
+                  ></div>
                 </div>
               </div>
 
@@ -162,7 +166,10 @@ export default function ReportesPage() {
                   <span className="text-[#c1ff00]">10%</span>
                 </div>
                 <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "10%" }}></div>
+                  <div
+                    className="bg-[#c1ff00] h-2 rounded-full"
+                    style={{ width: "10%" }}
+                  ></div>
                 </div>
               </div>
             </div>
@@ -170,7 +177,9 @@ export default function ReportesPage() {
 
           {/* Consumption by Device */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Consumo por Dispositivo</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Consumo por Dispositivo
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
@@ -180,7 +189,10 @@ export default function ReportesPage() {
                     <span className="text-[#c1ff00]">35%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "35%" }}></div>
+                    <div
+                      className="bg-[#c1ff00] h-2 rounded-full"
+                      style={{ width: "35%" }}
+                    ></div>
                   </div>
                 </div>
 
@@ -190,7 +202,10 @@ export default function ReportesPage() {
                     <span className="text-[#c1ff00]">30%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "30%" }}></div>
+                    <div
+                      className="bg-[#c1ff00] h-2 rounded-full"
+                      style={{ width: "30%" }}
+                    ></div>
                   </div>
                 </div>
 
@@ -200,7 +215,10 @@ export default function ReportesPage() {
                     <span className="text-[#c1ff00]">15%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "15%" }}></div>
+                    <div
+                      className="bg-[#c1ff00] h-2 rounded-full"
+                      style={{ width: "15%" }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -212,7 +230,10 @@ export default function ReportesPage() {
                     <span className="text-[#c1ff00]">10%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "10%" }}></div>
+                    <div
+                      className="bg-[#c1ff00] h-2 rounded-full"
+                      style={{ width: "10%" }}
+                    ></div>
                   </div>
                 </div>
 
@@ -222,7 +243,10 @@ export default function ReportesPage() {
                     <span className="text-[#c1ff00]">7%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "7%" }}></div>
+                    <div
+                      className="bg-[#c1ff00] h-2 rounded-full"
+                      style={{ width: "7%" }}
+                    ></div>
                   </div>
                 </div>
 
@@ -232,7 +256,10 @@ export default function ReportesPage() {
                     <span className="text-[#c1ff00]">3%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div className="bg-[#c1ff00] h-2 rounded-full" style={{ width: "3%" }}></div>
+                    <div
+                      className="bg-[#c1ff00] h-2 rounded-full"
+                      style={{ width: "3%" }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -256,10 +283,30 @@ export default function ReportesPage() {
                 </thead>
                 <tbody>
                   {[
-                    { name: "Reporte Mensual", period: "Abril 2023", consumption: "274 kWh", cost: "$108,587" },
-                    { name: "Reporte Mensual", period: "Marzo 2023", consumption: "256 kWh", cost: "$98,450" },
-                    { name: "Reporte Mensual", period: "Febrero 2023", consumption: "286 kWh", cost: "$112,340" },
-                    { name: "Reporte Trimestral", period: "Ene-Mar 2023", consumption: "816 kWh", cost: "$320,780" },
+                    {
+                      name: "Reporte Mensual",
+                      period: "Abril 2023",
+                      consumption: "274 kWh",
+                      cost: "$108,587",
+                    },
+                    {
+                      name: "Reporte Mensual",
+                      period: "Marzo 2023",
+                      consumption: "256 kWh",
+                      cost: "$98,450",
+                    },
+                    {
+                      name: "Reporte Mensual",
+                      period: "Febrero 2023",
+                      consumption: "286 kWh",
+                      cost: "$112,340",
+                    },
+                    {
+                      name: "Reporte Trimestral",
+                      period: "Ene-Mar 2023",
+                      consumption: "816 kWh",
+                      cost: "$320,780",
+                    },
                   ].map((report, index) => (
                     <tr key={index} className="border-b border-gray-800">
                       <td className="py-3 px-4 flex items-center">
@@ -271,13 +318,25 @@ export default function ReportesPage() {
                       <td className="py-3 px-4">{report.cost}</td>
                       <td className="py-3 px-4">
                         <div className="flex space-x-2">
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
                             <BarChart3 className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
                             <Download className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
                             <Printer className="h-4 w-4" />
                           </Button>
                         </div>
@@ -291,5 +350,5 @@ export default function ReportesPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
