@@ -1,104 +1,147 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+<div align="center">
+  <img alt="Conecta - Optimización energética para el hogar" src="/public/conecta-logo.svg">
+  <h1 align="center">CONECTA</h1>
+</div>
 
 <p align="center">
- The fastest way to build apps with Next.js and Supabase
+ Plataforma web para el monitoreo y optimización del consumo energético en el hogar
 </p>
 
 <p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
+  <a href="#características"><strong>Características</strong></a> ·
+  <a href="#tecnologías"><strong>Tecnologías</strong></a> ·
+  <a href="#instalación"><strong>Instalación</strong></a> ·
+  <a href="#uso"><strong>Uso</strong></a> ·
+  <a href="#estructura-del-proyecto"><strong>Estructura</strong></a> ·
+  <a href="#equipo-de-desarrollo"><strong>Equipo</strong></a>
 </p>
 <br/>
 
-## Features
+## Características
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+- **Monitoreo en tiempo real** del consumo energético de dispositivos en el hogar
+- **Dashboard interactivo** con visualización de datos de consumo
+- **Análisis por zonas** de la vivienda para identificar áreas de alto consumo
+- **Recomendaciones personalizadas** para optimizar el consumo energético
+- **Seguimiento histórico** del consumo para analizar tendencias
+- **Autenticación segura** mediante email y contraseña
+- **Interfaz de usuario moderna e intuitiva** adaptada a diferentes dispositivos
 
-## Demo
+## Tecnologías
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+- **Frontend**:
 
-## Deploy to Vercel
+  - [Next.js](https://nextjs.org/) - Framework de React con renderizado del lado del servidor
+  - [React](https://reactjs.org/) - Biblioteca para interfaces de usuario
+  - [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utilitario
+  - [Shadcn UI](https://ui.shadcn.com/) - Componentes de UI reutilizables
+  - [Recharts](https://recharts.org/) - Biblioteca de visualización de datos
+  - [ApexCharts](https://apexcharts.com/) - Gráficos interactivos
 
-Vercel deployment will guide you through creating a Supabase account and project.
+- **Backend**:
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+  - [Supabase](https://supabase.com/) - Plataforma de backend como servicio
+  - [Supabase Auth](https://supabase.com/auth) - Autenticación y gestión de usuarios
+  - [Supabase Database](https://supabase.com/database) - Base de datos PostgreSQL
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+- **Otros**:
+  - [TypeScript](https://www.typescriptlang.org/) - Tipado estático para JavaScript
+  - [Zod](https://zod.dev/) - Validación de esquemas
+  - [React Hook Form](https://react-hook-form.com/) - Manejo de formularios
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+## Instalación
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
-
-## Clone and run locally
-
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
-
-2. Create a Next.js app using the Supabase Starter template npx command
-
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+1. Clona este repositorio:
 
    ```bash
-   yarn create next-app --example with-supabase with-supabase-app
+   git clone https://github.com/tu-usuario/conecta.git
+   cd conecta
    ```
+
+2. Instala las dependencias:
 
    ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
+   npm install
+   # o
+   yarn install
+   # o
+   pnpm install
    ```
 
-3. Use `cd` to change into the app's directory
+3. Configura las variables de entorno:
 
-   ```bash
-   cd with-supabase-app
-   ```
-
-4. Rename `.env.example` to `.env.local` and update the following:
+   Crea un archivo `.env.local` en la raíz del proyecto:
 
    ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+   NEXT_PUBLIC_SUPABASE_URL=tu-url-de-supabase
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anonima-de-supabase
    ```
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
-
-5. You can now run the Next.js local development server:
+4. Inicia el servidor de desarrollo:
 
    ```bash
    npm run dev
+   # o
+   yarn dev
+   # o
+   pnpm dev
    ```
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+## Uso
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+1. **Registro e inicio de sesión**:
 
-## Feedback and issues
+   - Regístrate con tu correo electrónico y contraseña
+   - Verifica tu cuenta a través del enlace enviado al correo
+   - Completa tu perfil con información personal
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+2. **Dashboard principal**:
 
-## More Supabase examples
+   - Visualiza el consumo energético total
+   - Analiza tendencias semanales
+   - Identifica la zona de mayor consumo
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+3. **Monitoreo por zonas**:
+
+   - Selecciona diferentes zonas del hogar
+   - Visualiza el consumo de los dispositivos en cada zona
+   - Recibe recomendaciones específicas para optimizar el consumo
+
+4. **Informes y estadísticas**:
+   - Genera informes personalizados de consumo
+   - Compara períodos para identificar tendencias
+   - Analiza el impacto de tus acciones en el consumo energético
+
+## Estructura del proyecto
+
+```
+app/                   # Directorio principal de la aplicación Next.js
+├── actions.ts         # Acciones del servidor para interactuar con Supabase
+├── (auth-pages)/      # Páginas relacionadas con autenticación
+├── protected/         # Páginas protegidas (requieren autenticación)
+│   ├── dashboard/     # Dashboard de visualización de consumo energético
+│   ├── home/          # Página principal del usuario
+│   └── reports/       # Reportes y estadísticas
+components/            # Componentes reutilizables
+├── ui/                # Componentes de UI básicos
+├── PowerChartComponent.tsx  # Componente para gráficos de consumo
+└── ZoneDeviceSelector.tsx   # Selector de dispositivos por zona
+types/                 # Definiciones de tipos TypeScript
+utils/                 # Utilidades y funciones auxiliares
+validations/           # Esquemas de validación para formularios
+```
+
+## Equipo de trabajo
+
+Este proyecto fue desarrollado como parte del curso de Ingeniería de Proyectos I.
+
+- [Felipe Villa Jaramillo](mailto:villajaramillofelipe4@gmail.com)
+- [Juan Manuel Yepes]()
+- [Isabella Ceballos]()
+- [Juliana Ocampo]()
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - vea el archivo [LICENSE](LICENSE) para más detalles.
