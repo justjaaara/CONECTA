@@ -6,7 +6,10 @@
 <p align="center">
  Plataforma web para el monitoreo y optimización del consumo energético en el hogar
 </p>
+<p align="center">
+<a href="conecta-rouge.vercel.app/">Enlace a producción</a>
 
+</p>
 <p align="center">
   <a href="#características"><strong>Características</strong></a> ·
   <a href="#tecnologías"><strong>Tecnologías</strong></a> ·
