@@ -19,6 +19,7 @@ import {
 import ReportPeriodComponent from "./ReportPeriodComponent";
 import MonthlySummary from "./MonthlySummary";
 import DailyConsumption from "./DailyConsumptionChart";
+import ConsumptionByZone from "./ConsumptionByZone";
 
 export default function ReportesPage() {
   return (
@@ -76,63 +77,7 @@ export default function ReportesPage() {
           <DailyConsumption />
 
           {/* Consumption by Zone */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Consumo por Zona</h2>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span>Cocina</span>
-                  <span className="text-[#c1ff00]">50%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div
-                    className="bg-[#c1ff00] h-2 rounded-full"
-                    style={{ width: "50%" }}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span>Sala</span>
-                  <span className="text-[#c1ff00]">25%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div
-                    className="bg-[#c1ff00] h-2 rounded-full"
-                    style={{ width: "25%" }}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span>Dormitorio 1</span>
-                  <span className="text-[#c1ff00]">15%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div
-                    className="bg-[#c1ff00] h-2 rounded-full"
-                    style={{ width: "15%" }}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span>Baño</span>
-                  <span className="text-[#c1ff00]">10%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div
-                    className="bg-[#c1ff00] h-2 rounded-full"
-                    style={{ width: "10%" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ConsumptionByZone />
 
           {/* Consumption by Device */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">

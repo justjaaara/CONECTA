@@ -2,7 +2,7 @@
 
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getUserMonthlyConsumption } from "@/app/actions";
+import { getUserMonthlyConsumptionCached } from "@/app/actions";
 import type { MonthlyConsumption } from "@/types/types";
 
 const MonthlySummary = () => {
@@ -34,7 +34,7 @@ const MonthlySummary = () => {
     const fetchConsumption = async () => {
       setLoading(true);
       try {
-        const data = await getUserMonthlyConsumption();
+        const data = await getUserMonthlyConsumptionCached();
         setConsumption(data);
       } catch (error) {
         console.error("Error fetching consumption data:", error);

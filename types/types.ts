@@ -47,3 +47,14 @@ export interface DailyConsumptionRecord {
   day_date: string;
   total_power: string | number;
 }
+
+export interface ZoneConsumption {
+  zone_name: string;
+  total_consumption: number;
+  percentage: number;
+}
+
+export interface ZoneConsumptionSummary {
+  zones: ZoneConsumption[];
+  totalConsumption: number;
+}
