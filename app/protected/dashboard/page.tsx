@@ -12,6 +12,7 @@ import WeeklyPowerChart from "@/components/WeeklyPowerChartComponent";
 import { measurement } from "@/types/types";
 import ZoneWithHighestConsumption from "./ZoneWithHighestConsumption";
 import TotalEnergyConsumption from "./TotalEnergyConsumption";
+import Recommendations from "./Recomendations";
 
 async function DashboardPage() {
   let measurements: measurement[] = [];
@@ -62,29 +63,7 @@ async function DashboardPage() {
           <ZoneWithHighestConsumption />
 
           {/* Recommendations */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-2">Recomendaciones</h2>
-            <p className="text-sm text-gray-400 mb-4">
-              Consejos personalizados para optimizar energía
-            </p>
-
-            <div className="space-y-4">
-              <div className="bg-[#c1ff00] text-black p-4 rounded-lg">
-                <p className="font-medium">
-                  Desconecta los electrodomésticos que no uses
-                </p>
-              </div>
-
-              <div className="bg-[#c1ff00]/20 border border-gray-800 p-4 rounded-lg">
-                <p className="font-medium">
-                  Aprovecha al máximo la luz natural
-                </p>
-                <p className="text-xs text-gray-400 mt-2">
-                  Recomendación de hoy
-                </p>
-              </div>
-            </div>
-          </div>
+          <Recommendations />
         </div>
       </div>
     </div>
