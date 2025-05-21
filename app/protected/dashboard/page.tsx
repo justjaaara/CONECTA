@@ -10,6 +10,7 @@ import {
 } from "@/app/actions";
 import WeeklyPowerChart from "@/components/WeeklyPowerChartComponent";
 import { measurement } from "@/types/types";
+import ZoneWithHighestConsumption from "./ZoneWithHighestConsumption";
 
 async function DashboardPage() {
   let measurements: measurement[] = [];
@@ -105,29 +106,7 @@ async function DashboardPage() {
           </div>
 
           {/* Zone with Highest Consumption */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-2">
-              Zona con Mayor Consumo de Energía
-            </h2>
-
-            <div className="flex items-center justify-center mt-6">
-              <div className="relative w-40 h-40">
-                <div className="absolute inset-0 rounded-full border-8 border-gray-800"></div>
-                <div
-                  className="absolute inset-0 rounded-full border-8 border-[#c1ff00]"
-                  style={{
-                    clipPath:
-                      "polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%)",
-                    transform: "rotate(90deg)",
-                  }}
-                ></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Utensils className="h-16 w-16 text-[#c1ff00]" />
-                </div>
-              </div>
-              <div className="text-6xl font-bold text-[#c1ff00] ml-6">50%</div>
-            </div>
-          </div>
+          <ZoneWithHighestConsumption />
 
           {/* Recommendations */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
