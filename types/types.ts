@@ -14,3 +14,10 @@ export interface DeviceConsumptionRecord {
   location: string;
   consumption: string | number; // Podría venir como string desde la base de datos
 }
+
+export interface MonthlyConsumption {
+  currentConsumption: number;
+  previousConsumption: number;
+  percentageChange: number;
+  isIncrease: boolean;
+}

@@ -9,7 +9,10 @@ import {
   DeviceConsumption,
   ConsumptionSummary,
 } from "@/hooks/useDeviceConsumptionData";
-import type { DeviceConsumptionRecord } from "@/types/types";
+import type {
+  DeviceConsumptionRecord,
+  MonthlyConsumption,
+} from "@/types/types";
 
 export const signUpAction = async (formData: {
   email: string;
@@ -363,6 +366,69 @@ export async function getDeviceConsumptionByPeriod(
     };
   } catch (error) {
     console.error("Error al obtener el consumo de dispositivos:", error);
+    return null;
+  }
+}
+
+export async function getUserMonthlyConsumption(): Promise<MonthlyConsumption | null> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const userId = user.id;
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth() + 1; // JavaScript months are 0-based
+
+    const { data, error } = await supabase.rpc("get_user_monthly_consumption", {
+      p_user_id: userId,
+      p_year: currentYear,
+      p_month: currentMonth,
+    });
+
+    if (error) {
+      console.error("Error al obtener consumo mensual:", error);
+      return null;
+    }
+
+    if (!data || data.length === 0) {
+      return {
+        currentConsumption: 0,
+        previousConsumption: 0,
+        percentageChange: 0,
+        isIncrease: false,
+      };
+    }
+
+    const currentConsumption = parseFloat(data[0].total_consumption);
+    const previousConsumption = parseFloat(data[0].previous_consumption);
+
+    // Calcular el porcentaje de cambio
+    let percentageChange = 0;
+    let isIncrease = false;
+
+    if (previousConsumption > 0) {
+      percentageChange = Math.abs(
+        ((currentConsumption - previousConsumption) / previousConsumption) * 100
+      );
+      isIncrease = currentConsumption > previousConsumption;
+    } else if (currentConsumption > 0) {
+      // Si el mes anterior fue 0, pero este mes hay consumo, es un 100% de aumento
+      percentageChange = 100;
+      isIncrease = true;
+    }
+
+    return {
+      currentConsumption,
+      previousConsumption,
+      percentageChange: Math.round(percentageChange),
+      isIncrease,
+    };
+  } catch (error) {
+    console.error("Error al obtener consumo mensual:", error);
     return null;
   }
 }

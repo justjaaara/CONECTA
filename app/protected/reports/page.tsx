@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ReportPeriodComponent from "./ReportPeriodComponent";
+import MonthlySummary from "./MonthlySummary";
 
 export default function ReportesPage() {
   return (
@@ -68,18 +69,7 @@ export default function ReportesPage() {
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Monthly Summary */}
-          <div className="bg-gradient-to-b from-black to-[#c1ff00]/40 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Resumen Mensual</h2>
-            <p className="text-sm text-gray-400 mb-6">Mayo 2023</p>
-            <div className="flex items-end">
-              <div className="text-8xl font-bold">286</div>
-              <div className="text-xl ml-2 mb-2 text-gray-400">kWh</div>
-            </div>
-            <div className="mt-4 flex items-center text-[#c1ff00]">
-              <ChevronUp className="h-4 w-4 mr-1" />
-              <span>12% más que el mes anterior</span>
-            </div>
-          </div>
+          <MonthlySummary />
 
           {/* Daily Consumption */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
