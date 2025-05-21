@@ -13,7 +13,9 @@ import type {
   DailyConsumptionData,
   DailyConsumptionRecord,
   DailyConsumptionSummary,
+  DeviceConsumptionItem,
   DeviceConsumptionRecord,
+  DeviceConsumptionSummary,
   MonthlyConsumption,
   ZoneConsumption,
   ZoneConsumptionSummary,
@@ -624,6 +626,90 @@ export async function getUserZoneConsumption(
   }
 }
 
+export async function getUserDeviceConsumption(
+  year?: number,
+  month?: number
+): Promise<DeviceConsumptionSummary | null> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return null;
+
+    const userId = user.id;
+    const today = new Date();
+    const targetYear = year || today.getFullYear();
+    const targetMonth = month || today.getMonth() + 1; // JavaScript months are 0-based
+
+    // Definir tipo para los registros devueltos
+    interface DeviceConsumptionRecord {
+      device_id: number;
+      device_name: string;
+      total_consumption: string | number;
+      percentage: string | number;
+    }
+
+    // Definir tipo para los parámetros
+    type ParamsType = {
+      p_user_id: string;
+      p_year: number;
+      p_month: number;
+    };
+
+    const { data, error } = await supabase.rpc("get_consumption_by_device", {
+      p_user_id: userId,
+      p_year: targetYear,
+      p_month: targetMonth,
+    });
+
+    if (error) {
+      console.error("Error al obtener consumo por dispositivo:", error);
+      return null;
+    }
+
+    if (!data || data.length === 0) {
+      return {
+        devices: [],
+        totalConsumption: 0,
+      };
+    }
+
+    // Transformar los datos
+    const devices: DeviceConsumptionItem[] = data.map(
+      (item: DeviceConsumptionRecord) => ({
+        device_id: item.device_id,
+        device_name: item.device_name,
+        total_consumption: parseFloat(
+          typeof item.total_consumption === "string"
+            ? item.total_consumption
+            : item.total_consumption.toString()
+        ),
+        percentage: parseFloat(
+          typeof item.percentage === "string"
+            ? item.percentage
+            : item.percentage.toString()
+        ),
+      })
+    );
+
+    // Calcular el consumo total
+    const totalConsumption = devices.reduce(
+      (sum, device) => sum + device.total_consumption,
+      0
+    );
+
+    return {
+      devices,
+      totalConsumption,
+    };
+  } catch (error) {
+    console.error("Error al obtener consumo por dispositivo:", error);
+    return null;
+  }
+}
+
 export const getUserWeeklyMeasurementsCached = cache(async (userId: string) => {
   return getUserWeeklyMeasurements(userId);
 });
@@ -653,5 +739,11 @@ export const getUserMonthlyConsumptionCached = cache(async () => {
 export const getUserDailyConsumptionCached = cache(
   async (year?: number, month?: number) => {
     return getUserDailyConsumption(year, month);
+  }
+);
+
+export const getUserDeviceConsumptionCached = cache(
+  async (year?: number, month?: number) => {
+    return getUserDeviceConsumption(year, month);
   }
 );

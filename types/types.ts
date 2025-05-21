@@ -58,3 +58,15 @@ export interface ZoneConsumptionSummary {
   zones: ZoneConsumption[];
   totalConsumption: number;
 }
+
+export interface DeviceConsumptionItem {
+  device_id: number;
+  device_name: string;
+  total_consumption: number;
+  percentage: number;
+}
+
+export interface DeviceConsumptionSummary {
+  devices: DeviceConsumptionItem[];
+  totalConsumption: number;
+}

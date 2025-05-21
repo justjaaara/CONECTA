@@ -20,6 +20,7 @@ import ReportPeriodComponent from "./ReportPeriodComponent";
 import MonthlySummary from "./MonthlySummary";
 import DailyConsumption from "./DailyConsumptionChart";
 import ConsumptionByZone from "./ConsumptionByZone";
+import ConsumptionByDevice from "./ConsumptionByDevice";
 
 export default function ReportesPage() {
   return (
@@ -80,95 +81,7 @@ export default function ReportesPage() {
           <ConsumptionByZone />
 
           {/* Consumption by Device */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">
-              Consumo por Dispositivo
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span>Nevera</span>
-                    <span className="text-[#c1ff00]">35%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div
-                      className="bg-[#c1ff00] h-2 rounded-full"
-                      style={{ width: "35%" }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span>Aire Acondicionado</span>
-                    <span className="text-[#c1ff00]">30%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div
-                      className="bg-[#c1ff00] h-2 rounded-full"
-                      style={{ width: "30%" }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span>Lavadora</span>
-                    <span className="text-[#c1ff00]">15%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div
-                      className="bg-[#c1ff00] h-2 rounded-full"
-                      style={{ width: "15%" }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span>Microondas</span>
-                    <span className="text-[#c1ff00]">10%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div
-                      className="bg-[#c1ff00] h-2 rounded-full"
-                      style={{ width: "10%" }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span>Televisor</span>
-                    <span className="text-[#c1ff00]">7%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div
-                      className="bg-[#c1ff00] h-2 rounded-full"
-                      style={{ width: "7%" }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span>Otros</span>
-                    <span className="text-[#c1ff00]">3%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
-                    <div
-                      className="bg-[#c1ff00] h-2 rounded-full"
-                      style={{ width: "3%" }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ConsumptionByDevice />
 
           {/* Recent Reports */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-3 text-white shadow-xl">
