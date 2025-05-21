@@ -109,9 +109,11 @@ const Recommendations = () => {
   }, []);
 
   return (
-    <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-      <h2 className="text-xl font-semibold mb-2">Recomendaciones</h2>
-      <p className="text-sm text-gray-400 mb-4">
+    <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-4 sm:p-6 md:row-span-1 text-white shadow-xl">
+      <h2 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">
+        Recomendaciones
+      </h2>
+      <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
         Consejos personalizados para optimizar energía
       </p>
 

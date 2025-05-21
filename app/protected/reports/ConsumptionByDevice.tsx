@@ -40,8 +40,10 @@ const ConsumptionByDevice = () => {
   const [leftColumnDevices, rightColumnDevices] = getDevicesInColumns();
 
   return (
-    <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
-      <h2 className="text-xl font-semibold mb-4">Consumo por Dispositivo</h2>
+    <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-4 sm:p-6 md:col-span-2 text-white shadow-xl">
+      <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
+        Consumo por Dispositivo
+      </h2>
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

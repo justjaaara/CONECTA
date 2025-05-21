@@ -97,8 +97,8 @@ const ZoneWithHighestConsumption = () => {
   };
 
   return (
-    <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-      <h2 className="text-xl font-semibold mb-2">
+    <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-4 sm:p-6 md:row-span-1 text-white shadow-xl">
+      <h2 className="text-lg sm:text-xl font-semibold mb-2">
         Zona con Mayor Consumo de Energía
       </h2>
 
@@ -107,11 +107,11 @@ const ZoneWithHighestConsumption = () => {
           <Loader2 className="h-12 w-12 text-[#c1ff00] animate-spin" />
         </div>
       ) : highestZone ? (
-        <div className="flex items-center justify-center mt-6">
-          <div className="relative w-40 h-40">
-            <div className="absolute inset-0 rounded-full border-8 border-gray-800"></div>
+        <div className="flex flex-col sm:flex-row items-center justify-center mt-4 sm:mt-6">
+          <div className="relative w-32 h-32 sm:w-40 sm:h-40">
+            <div className="absolute inset-0 rounded-full border-6 sm:border-8 border-gray-800"></div>
             <div
-              className="absolute inset-0 rounded-full border-8 border-[#c1ff00]"
+              className="absolute inset-0 rounded-full border-6 sm:border-8 border-[#c1ff00]"
               style={{
                 clipPath: getClipPath(highestZone.percentage),
                 transform: "rotate(-90deg)",
@@ -121,11 +121,13 @@ const ZoneWithHighestConsumption = () => {
               {getZoneIcon(highestZone.name)}
             </div>
           </div>
-          <div className="ml-6 flex flex-col">
-            <div className="text-6xl font-bold text-[#c1ff00]">
+          <div className="mt-4 sm:mt-0 sm:ml-6 flex flex-col items-center sm:items-start">
+            <div className="text-4xl sm:text-6xl font-bold text-[#c1ff00]">
               {Math.round(highestZone.percentage)}%
             </div>
-            <div className="text-lg text-gray-400 mt-2">{highestZone.name}</div>
+            <div className="text-base sm:text-lg text-gray-400 mt-1 sm:mt-2">
+              {highestZone.name}
+            </div>
           </div>
         </div>
       ) : (

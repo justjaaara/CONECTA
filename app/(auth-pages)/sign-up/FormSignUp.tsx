@@ -88,7 +88,9 @@ export default function FormSignUp() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 md:space-y-6"
           >
-            <p className="text-sm text-white">Correo electrónico</p>
+            <p className="text-base sm:text-sm text-white">
+              Correo electrónico
+            </p>
             <FormField
               control={form.control}
               name="email"
@@ -106,7 +108,7 @@ export default function FormSignUp() {
               )}
             />
 
-            <p className="text-sm text-white">Contraseña</p>
+            <p className="text-base sm:text-sm text-white">Contraseña</p>
             <FormField
               control={form.control}
               name="password"
@@ -124,7 +126,9 @@ export default function FormSignUp() {
               )}
             />
 
-            <p className="text-sm text-white">Confirmar contraseña</p>
+            <p className="text-base sm:text-sm text-white">
+              Confirmar contraseña
+            </p>
             <FormField
               control={form.control}
               name="confirmPassword"

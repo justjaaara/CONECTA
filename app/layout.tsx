@@ -35,7 +35,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-full ">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+      </head>
+      <body className="w-full">
         {children}
         <Toaster theme="dark" position="bottom-right" richColors closeButton />
       </body>
