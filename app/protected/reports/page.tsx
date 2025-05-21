@@ -21,6 +21,7 @@ import MonthlySummary from "./MonthlySummary";
 import DailyConsumption from "./DailyConsumptionChart";
 import ConsumptionByZone from "./ConsumptionByZone";
 import ConsumptionByDevice from "./ConsumptionByDevice";
+import ServiceAccount from "./ServiceAccount";
 
 export default function ReportesPage() {
   return (
@@ -39,36 +40,6 @@ export default function ReportesPage() {
         {/* Report Period Selector */}
         <ReportPeriodComponent />
 
-        {/* Report Types */}
-        <Tabs defaultValue="consumo" className="mb-6">
-          <TabsList className="flex justify-start gap-1 bg-[#c1ff00]/20 border border-white/10 rounded-full p-1 text-white text-sm w-full md:w-auto">
-            <TabsTrigger
-              value="consumo"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white px-4 py-1 rounded-full transition-all"
-            >
-              Consumo Energético
-            </TabsTrigger>
-            <TabsTrigger
-              value="costos"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white px-4 py-1 rounded-full transition-all"
-            >
-              Costos
-            </TabsTrigger>
-            <TabsTrigger
-              value="comparativo"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white px-4 py-1 rounded-full transition-all"
-            >
-              Comparativo
-            </TabsTrigger>
-            <TabsTrigger
-              value="dispositivos"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white px-4 py-1 rounded-full transition-all"
-            >
-              Dispositivos
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Monthly Summary */}
@@ -84,86 +55,7 @@ export default function ReportesPage() {
           <ConsumptionByDevice />
 
           {/* Recent Reports */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-3 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Reportes Recientes</h2>
-
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="text-left py-3 px-4">Nombre</th>
-                    <th className="text-left py-3 px-4">Período</th>
-                    <th className="text-left py-3 px-4">Consumo Total</th>
-                    <th className="text-left py-3 px-4">Costo</th>
-                    <th className="text-left py-3 px-4">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    {
-                      name: "Reporte Mensual",
-                      period: "Abril 2023",
-                      consumption: "274 kWh",
-                      cost: "$108,587",
-                    },
-                    {
-                      name: "Reporte Mensual",
-                      period: "Marzo 2023",
-                      consumption: "256 kWh",
-                      cost: "$98,450",
-                    },
-                    {
-                      name: "Reporte Mensual",
-                      period: "Febrero 2023",
-                      consumption: "286 kWh",
-                      cost: "$112,340",
-                    },
-                    {
-                      name: "Reporte Trimestral",
-                      period: "Ene-Mar 2023",
-                      consumption: "816 kWh",
-                      cost: "$320,780",
-                    },
-                  ].map((report, index) => (
-                    <tr key={index} className="border-b border-gray-800">
-                      <td className="py-3 px-4 flex items-center">
-                        <FileText className="h-4 w-4 mr-2 text-[#c1ff00]" />
-                        {report.name}
-                      </td>
-                      <td className="py-3 px-4">{report.period}</td>
-                      <td className="py-3 px-4">{report.consumption}</td>
-                      <td className="py-3 px-4">{report.cost}</td>
-                      <td className="py-3 px-4">
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0"
-                          >
-                            <BarChart3 className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0"
-                          >
-                            <Download className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0"
-                          >
-                            <Printer className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <ServiceAccount />
         </div>
       </div>
     </div>
