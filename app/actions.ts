@@ -10,6 +10,9 @@ import {
   ConsumptionSummary,
 } from "@/hooks/useDeviceConsumptionData";
 import type {
+  DailyConsumptionData,
+  DailyConsumptionRecord,
+  DailyConsumptionSummary,
   DeviceConsumptionRecord,
   MonthlyConsumption,
 } from "@/types/types";
@@ -431,6 +434,118 @@ export async function getUserMonthlyConsumption(): Promise<MonthlyConsumption | 
     console.error("Error al obtener consumo mensual:", error);
     return null;
   }
+}
+
+export async function getUserDailyConsumption(
+  year?: number,
+  month?: number
+): Promise<DailyConsumptionSummary | null> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return null;
+
+    const userId = user.id;
+    const today = new Date();
+    const targetYear = year || today.getFullYear();
+    const targetMonth = month || today.getMonth() + 1; // JavaScript months are 0-based
+
+    const { data, error } = await supabase.rpc("get_user_daily_consumption", {
+      p_user_id: userId,
+      p_year: targetYear,
+      p_month: targetMonth,
+    });
+
+    if (error) {
+      console.error("Error al obtener consumo diario:", error);
+      return null;
+    }
+
+    if (!data || data.length === 0) {
+      return {
+        dailyData: [],
+        highestConsumption: {
+          day: 0,
+          month: getMonthName(targetMonth),
+          power: 0,
+        },
+        lowestConsumption: {
+          day: 0,
+          month: getMonthName(targetMonth),
+          power: 0,
+        },
+      };
+    }
+
+    const dailyData: DailyConsumptionData[] = data.map(
+      (item: DailyConsumptionRecord) => ({
+        day_number: item.day_number,
+        day_date: new Date(item.day_date).toISOString(),
+        total_power: parseFloat(
+          typeof item.total_power === "string"
+            ? item.total_power
+            : item.total_power.toString()
+        ),
+      })
+    );
+
+    // Encontrar el día con mayor consumo
+    const maxConsumption = dailyData.reduce(
+      (prev, current) =>
+        current.total_power > prev.total_power ? current : prev,
+      dailyData[0]
+    );
+
+    // Encontrar el día con menor consumo (solo días con consumo mayor a 0)
+    const daysWithConsumption = dailyData.filter((day) => day.total_power > 0);
+    const minConsumption =
+      daysWithConsumption.length > 0
+        ? daysWithConsumption.reduce(
+            (prev, current) =>
+              current.total_power < prev.total_power ? current : prev,
+            daysWithConsumption[0]
+          )
+        : dailyData[0];
+
+    return {
+      dailyData,
+      highestConsumption: {
+        day: maxConsumption.day_number,
+        month: getMonthName(targetMonth),
+        power: maxConsumption.total_power,
+      },
+      lowestConsumption: {
+        day: minConsumption.day_number,
+        month: getMonthName(targetMonth),
+        power: minConsumption.total_power,
+      },
+    };
+  } catch (error) {
+    console.error("Error al obtener consumo diario:", error);
+    return null;
+  }
+}
+
+// Función auxiliar para obtener el nombre del mes
+function getMonthName(month: number): string {
+  const months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+  return months[month - 1] || "";
 }
 
 export const getUserWeeklyMeasurementsCached = cache(async (userId: string) => {

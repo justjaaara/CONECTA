@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import ReportPeriodComponent from "./ReportPeriodComponent";
 import MonthlySummary from "./MonthlySummary";
+import DailyConsumption from "./DailyConsumptionChart";
 
 export default function ReportesPage() {
   return (
@@ -72,39 +73,7 @@ export default function ReportesPage() {
           <MonthlySummary />
 
           {/* Daily Consumption */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">Consumo Diario</h2>
-            <p className="text-sm text-gray-400 mb-6">
-              Detalle de consumo por día
-            </p>
-
-            <div className="flex justify-between items-end h-40 mb-4">
-              {[8, 12, 9, 15, 10, 14, 11, 13, 9, 16, 12, 10, 14, 9, 11].map(
-                (value, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    <div
-                      className={`w-4 rounded-sm ${index === 7 ? "bg-[#c1ff00]" : "bg-gray-800"}`}
-                      style={{ height: `${value * 6}px` }}
-                    ></div>
-                    <div className="text-xs text-gray-400 mt-2">
-                      {index + 1}
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-
-            <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-400">
-                Día con mayor consumo:{" "}
-                <span className="text-white">8 de Mayo (16 kWh)</span>
-              </div>
-              <div className="text-sm text-gray-400">
-                Día con menor consumo:{" "}
-                <span className="text-white">1 de Mayo (8 kWh)</span>
-              </div>
-            </div>
-          </div>
+          <DailyConsumption />
 
           {/* Consumption by Zone */}
           <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-1 text-white shadow-xl">

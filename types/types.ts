@@ -21,3 +21,29 @@ export interface MonthlyConsumption {
   percentageChange: number;
   isIncrease: boolean;
 }
+
+export interface DailyConsumptionData {
+  day_number: number;
+  day_date: string;
+  total_power: number;
+}
+
+export interface DailyConsumptionSummary {
+  dailyData: DailyConsumptionData[];
+  highestConsumption: {
+    day: number;
+    month: string;
+    power: number;
+  };
+  lowestConsumption: {
+    day: number;
+    month: string;
+    power: number;
+  };
+}
+
+export interface DailyConsumptionRecord {
+  day_number: number;
+  day_date: string;
+  total_power: string | number;
+}
