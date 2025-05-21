@@ -710,6 +710,86 @@ export async function getUserDeviceConsumption(
   }
 }
 
+export async function getDevicesByZone(
+  zoneName: string,
+  year?: number,
+  month?: number
+): Promise<DeviceConsumptionItem[] | null> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return null;
+
+    const userId = user.id;
+    const today = new Date();
+    const targetYear = year || today.getFullYear();
+    const targetMonth = month || today.getMonth() + 1; // JavaScript months are 0-based
+
+    // Definir tipos para los parámetros y registros devueltos
+    type ParamsType = {
+      p_user_id: string;
+      p_zone_name: string;
+      p_year: number;
+      p_month: number;
+    };
+
+    interface DeviceZoneRecord {
+      device_id: number;
+      device_name: string;
+      total_consumption: string | number;
+      percentage: string | number;
+    }
+
+    const { data, error } = await supabase.rpc("get_devices_by_zone", {
+      p_user_id: userId,
+      p_zone_name: zoneName,
+      p_year: targetYear,
+      p_month: targetMonth,
+    });
+
+    if (error) {
+      console.error("Error al obtener dispositivos por zona:", error);
+      return null;
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // Transformar los datos
+    const devices: DeviceConsumptionItem[] = data.map(
+      (item: DeviceZoneRecord) => ({
+        device_id: item.device_id,
+        device_name: item.device_name,
+        total_consumption: parseFloat(
+          typeof item.total_consumption === "string"
+            ? item.total_consumption
+            : item.total_consumption.toString()
+        ),
+        percentage: parseFloat(
+          typeof item.percentage === "string"
+            ? item.percentage
+            : item.percentage.toString()
+        ),
+      })
+    );
+
+    return devices;
+  } catch (error) {
+    console.error("Error al obtener dispositivos por zona:", error);
+    return null;
+  }
+}
+
+export const getDevicesByZoneCached = cache(
+  async (zoneName: string, year?: number, month?: number) => {
+    return getDevicesByZone(zoneName, year, month);
+  }
+);
+
 export const getUserWeeklyMeasurementsCached = cache(async (userId: string) => {
   return getUserWeeklyMeasurements(userId);
 });

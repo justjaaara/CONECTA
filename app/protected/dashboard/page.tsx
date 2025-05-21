@@ -11,6 +11,7 @@ import {
 import WeeklyPowerChart from "@/components/WeeklyPowerChartComponent";
 import { measurement } from "@/types/types";
 import ZoneWithHighestConsumption from "./ZoneWithHighestConsumption";
+import TotalEnergyConsumption from "./TotalEnergyConsumption";
 
 async function DashboardPage() {
   let measurements: measurement[] = [];
@@ -55,55 +56,7 @@ async function DashboardPage() {
           </div>
 
           {/* Total Energy Consumption */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:row-span-1 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">
-              Consumo de Energía Total
-            </h2>
-
-            <div className="grid grid-cols-3 gap-4 text-sm text-gray-300 mb-6 text-center">
-              {/* Microondas */}
-              <div>
-                <div className="flex items-center justify-center font-semibold mb-2">
-                  Microondas <ChevronUp className="ml-1 h-3 w-3" />
-                </div>
-                <div className="text-3xl font-semibold">5-6</div>
-                <div className="text-sm text-gray-400">Kwh por mes</div>
-              </div>
-
-              {/* Nevera */}
-              <div>
-                <div className="flex items-center justify-center font-semibold mb-2">
-                  Nevera <ChevronDown className="ml-1 h-3 w-3" />
-                </div>
-                <div className="text-3xl font-semibold">29-71</div>
-                <div className="text-sm text-gray-400">Kwh por mes</div>
-              </div>
-
-              {/* Aire AC */}
-              <div>
-                <div className="flex items-center justify-center font-semibold mb-2">
-                  Aire AC <ChevronUp className="ml-1 h-3 w-3" />
-                </div>
-                <div className="text-3xl font-semibold">37-63</div>
-                <div className="text-sm text-gray-400">Kwh por mes</div>
-              </div>
-            </div>
-
-            {/* Tabs */}
-            <Tabs defaultValue="cocina">
-              <TabsList className="flex justify-between gap-1 bg-[#c1ff00]/20 border border-white/10 rounded-full p-1 text-white text-sm">
-                {["Cocina", "Sala", "Dormitorio 1", "Baño"].map((label) => (
-                  <TabsTrigger
-                    key={label}
-                    value={label.toLowerCase().replace(" ", "")}
-                    className="data-[state=active]:bg-white/10 data-[state=active]:text-white px-4 py-1 rounded-full transition-all"
-                  >
-                    {label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-          </div>
+          <TotalEnergyConsumption />
 
           {/* Zone with Highest Consumption */}
           <ZoneWithHighestConsumption />
@@ -130,74 +83,6 @@ async function DashboardPage() {
                   Recomendación de hoy
                 </p>
               </div>
-            </div>
-          </div>
-
-          {/* Cost Evolution */}
-          <div className="bg-[#c1ff00]/5 border border-gray-700 rounded-2xl p-6 md:col-span-2 text-white shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">
-              Evolución del costo $
-            </h2>
-
-            <div className="flex items-end justify-around h-32 mb-4">
-              <div className="flex flex-col items-center">
-                <div
-                  className="bg-[#c1ff00]/40 w-10 rounded-full"
-                  style={{ height: "80px" }}
-                ></div>
-                <div className="text-xs text-gray-400 mt-2">Ene</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div
-                  className="bg-[#c1ff00]/60 w-10 rounded-full"
-                  style={{ height: "100px" }}
-                ></div>
-                <div className="text-xs text-gray-400 mt-2">Feb</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div
-                  className="bg-[#c1ff00]/80 w-10 rounded-full"
-                  style={{ height: "70px" }}
-                ></div>
-                <div className="text-xs text-gray-400 mt-2">Mar</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div
-                  className="bg-[#c1ff00] w-10 rounded-full"
-                  style={{ height: "120px" }}
-                ></div>
-                <div className="text-xs text-gray-400 mt-2">Abr</div>
-              </div>
-
-              <div className="ml-6 text-xs">
-                <div className="flex flex-col space-y-1">
-                  <div className="flex items-center">
-                    <div className="w-2 h-6 bg-[#c1ff00]/40 mr-2"></div>
-                    <div>Ene | 1576 kWh</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-6 bg-[#c1ff00]/60 mr-2"></div>
-                    <div>Feb | 1420 kWh</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-6 bg-[#c1ff00]/80 mr-2"></div>
-                    <div>Mar | 1380 kWh</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-6 bg-[#c1ff00] mr-2"></div>
-                    <div>Abr | 1400 kWh</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-black border border-gray-800 p-4 rounded-lg">
-              <p>
-                Superaste el consumo del mes de{" "}
-                <span className="text-[#c1ff00]">Marzo</span>, por lo que para{" "}
-                <span className="text-[#c1ff00]">Abril</span> vas a pagar más de{" "}
-                <span className="text-[#c1ff00]">$108.587</span>
-              </p>
             </div>
           </div>
         </div>
