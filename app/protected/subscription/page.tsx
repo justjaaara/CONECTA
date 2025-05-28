@@ -5,7 +5,7 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="flex min-h-screen flex-col min-h-screen bg-black text-white">
+    <div className="flex min-h-screen flex-col bg-black text-white">
       <main className="flex-1">
         <section id="pricing" className="w-full py-10 md:py-20 lg:py-30">
           <div className="container px-4 md:px-6">
@@ -26,8 +26,8 @@ export default function LandingPage() {
                   <p className="text-muted-foreground">Para hogares pequeños</p>
                 </div>
                 <div className="mt-4 flex items-baseline text-3xl font-bold">
-                  €99.99
-                  <span className="ml-1 text-base font-medium text-muted-foreground">+ €4.99/mes</span>
+                  $99.990
+                  <span className="ml-1 text-base font-medium text-muted-foreground">+ $22.900/mes</span>
                 </div>
                 <ul className="mt-6 space-y-4">
                   <li className="flex items-start gap-2">
@@ -48,12 +48,6 @@ export default function LandingPage() {
                     </div>
                     <span>Historial de 3 meses</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <div className="rounded-full bg-transparent p-1 border border-lime-500">
-                      <ChevronRight className="h-4 w-4 text-lime-600" />
-                    </div>
-                    <span>Alertas básicas</span>
-                  </li>
                 </ul>
                 <Button className="w-full mt-8 bg-lime-600/40 border border-lime-500 hover:bg-lime-700">Comprar ahora</Button>
               </div>
@@ -63,8 +57,8 @@ export default function LandingPage() {
                   <p className="text-muted-foreground">Para hogares medianos</p>
                 </div>
                 <div className="mt-4 flex items-baseline text-3xl font-bold">
-                  €149.99
-                  <span className="ml-1 text-base font-medium text-muted-foreground">+ €7.99/mes</span>
+                  $249.990
+                  <span className="ml-1 text-base font-medium text-muted-foreground">+ $36.900/mes</span>
                 </div>
                 <ul className="mt-6 space-y-4">
                   <li className="flex items-start gap-2">
@@ -89,12 +83,6 @@ export default function LandingPage() {
                     <div className="rounded-full bg-transparent p-1 border border-lime-500">
                       <ChevronRight className="h-4 w-4 text-lime-600" />
                     </div>
-                    <span>Alertas avanzadas</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <div className="rounded-full bg-transparent p-1 border border-lime-500">
-                      <ChevronRight className="h-4 w-4 text-lime-600" />
-                    </div>
                     <span>Recomendaciones personalizadas</span>
                   </li>
                 </ul>
@@ -106,8 +94,8 @@ export default function LandingPage() {
                   <p className="text-muted-foreground">Para hogares grandes o negocios</p>
                 </div>
                 <div className="mt-4 flex items-baseline text-3xl font-bold">
-                  €249.99
-                  <span className="ml-1 text-base font-medium text-muted-foreground">+ €12.99/mes</span>
+                  $449.990
+                  <span className="ml-1 text-base font-medium text-muted-foreground">+ $59.900/mes</span>
                 </div>
                 <ul className="mt-6 space-y-4">
                   <li className="flex items-start gap-2">
@@ -132,7 +120,7 @@ export default function LandingPage() {
                     <div className="rounded-full bg-transparent p-1 border border-lime-500">
                       <ChevronRight className="h-4 w-4 text-lime-600" />
                     </div>
-                    <span>Alertas avanzadas</span>
+                    <span>Descarga de informes</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="rounded-full bg-transparent p-1 border border-lime-500">
@@ -144,7 +132,7 @@ export default function LandingPage() {
                     <div className="rounded-full bg-transparent p-1 border border-lime-500">
                       <ChevronRight className="h-4 w-4 text-lime-600" />
                     </div>
-                    <span>API para integración con otros sistemas</span>
+                    <span>Zona de mayor consumo</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="rounded-full bg-transparent p-1 border border-lime-500">
@@ -153,7 +141,7 @@ export default function LandingPage() {
                     <span>Soporte prioritario</span>
                   </li>
                 </ul>
-                <Button className="w-full mt-8 bg-lime-600/40 border border-lime-500 hover:bg-lime-700">Comprar ahora</Button>
+                <Button className="w-full mt-8 bg-gray-600/40 border border-lime-500/50 text-gray-400 cursor-not-allowed hover:bg-gray-600/40">¡Plan que tienes!</Button>
               </div>
             </div>
           </div>
@@ -162,4 +150,3 @@ export default function LandingPage() {
     </div>
   )
 }
-
