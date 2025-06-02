@@ -4,9 +4,7 @@ import * as pdfjsLib from "pdfjs-dist";
 
 // Función para extraer energía desde objeto File (para uso en cliente)
 // Usa PDF.js directamente ya que está disponible en el navegador
-export async function extractEnergyConsumptionFromFile(
-  pdfFile: File
-): Promise<{
+export async function extractEnergyConsumptionFromFile(pdfFile: File): Promise<{
   energia: string | null;
   fechaTexto: string | null;
   textoCompleto: string;
@@ -24,12 +22,7 @@ export async function extractEnergyConsumptionFromFile(
       const textContent = await page.getTextContent();
       const pageText = textContent.items.map((item: any) => item.str).join(" ");
       fullText += pageText + " ";
-
-      // Imprimimos el texto de cada página
-      console.log(`Texto extraído de la página ${i}:`, pageText);
     }
-
-    console.log("Texto completo extraído del PDF:", fullText);
 
     // Buscar energía con regex más flexible
     const energiaRegex = /Energía\s+(\d+(?:\.\d+)?)\s*k[wW]h/i;

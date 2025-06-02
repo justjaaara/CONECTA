@@ -19,6 +19,8 @@ const ServiceAccount = () => {
     textoCompleto?: string;
   } | null>(null);
   const [aiResponse, setAiResponse] = useState<string | null>(null);
+  const [displayedResponse, setDisplayedResponse] = useState<string>("");
+  const [isTyping, setIsTyping] = useState(false);
   const [loading, setLoading] = useState(false);
   const [processingPdf, setProcessingPdf] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +32,29 @@ const ServiceAccount = () => {
     const workerSrc = `https://unpkg.com/pdfjs-dist@5.2.133/build/pdf.worker.min.mjs`;
     pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
   }, []);
+
+  // Efecto para la animación de escritura
+  useEffect(() => {
+    if (aiResponse && !isTyping) {
+      setIsTyping(true);
+      setDisplayedResponse("");
+
+      let i = 0;
+      const speed = 5; // milisegundos por caracter (más bajo = más rápido)
+
+      const typeWriter = () => {
+        if (i < aiResponse.length) {
+          setDisplayedResponse((prev) => prev + aiResponse.charAt(i));
+          i++;
+          setTimeout(typeWriter, speed);
+        } else {
+          setIsTyping(false);
+        }
+      };
+
+      typeWriter();
+    }
+  }, [aiResponse]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
@@ -149,7 +174,7 @@ const ServiceAccount = () => {
 
     setLoading(true);
     try {
-      // Implementamos una solución más simple que evita Promise.withResolvers
+      // Enviamos también el texto completo extraído del PDF para un análisis más detallado
       const response = await fetch("/api/analyze-consumption", {
         method: "POST",
         headers: {
@@ -158,6 +183,7 @@ const ServiceAccount = () => {
         body: JSON.stringify({
           energia: extractedData.energia,
           fecha: extractedData.fecha,
+          textoCompleto: extractedData.textoCompleto || "",
         }),
       });
 
@@ -168,7 +194,8 @@ const ServiceAccount = () => {
       const data = await response.json();
       setAiResponse(data.analysis);
       toast.success("Análisis completado", {
-        description: "Se ha completado el análisis de tu consumo energético",
+        description:
+          "Se ha completado el análisis de tu consumo energético con Deepseek AI",
       });
     } catch (err) {
       console.error("Error al analizar con IA:", err);
@@ -266,14 +293,34 @@ const ServiceAccount = () => {
             <Card className="border-[#c1ff00]/30 bg-black/30">
               <CardContent className="p-6">
                 <h3 className="text-lg font-medium mb-3 text-[#c1ff00]">
-                  Análisis de tu consumo
+                  Análisis de tu consumo por Deepseek AI
                 </h3>
                 <div className="prose prose-invert max-w-none">
-                  {aiResponse.split("\n").map((paragraph, idx) => (
-                    <p key={idx} className="mb-2 text-gray-200">
-                      {paragraph}
-                    </p>
-                  ))}
+                  {displayedResponse.split("\n").map((paragraph, idx) => {
+                    // Destacar los títulos y elementos importantes
+                    if (
+                      paragraph.includes("recomendaciones") ||
+                      paragraph.includes("Recomendaciones") ||
+                      paragraph.includes("consumo es elevado") ||
+                      paragraph.includes("consumo es normal") ||
+                      paragraph.includes("consumo es bajo") ||
+                      /^\d+\./.test(paragraph)
+                    ) {
+                      return (
+                        <p
+                          key={idx}
+                          className="mb-2 text-[#c1ff00]/90 font-medium"
+                        >
+                          {paragraph}
+                        </p>
+                      );
+                    }
+                    return (
+                      <p key={idx} className="mb-2 text-gray-200">
+                        {paragraph}
+                      </p>
+                    );
+                  })}
                 </div>
                 <Button
                   onClick={resetForm}
