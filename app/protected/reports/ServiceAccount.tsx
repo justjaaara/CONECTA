@@ -131,8 +131,6 @@ const ServiceAccount = () => {
       const textContent = await page.getTextContent();
       const pageText = textContent.items.map((item: any) => item.str).join(" ");
       fullText += pageText + " ";
-
-      // Imprimimos el texto de cada página
     }
 
     // Extraer la información de energía usando expresiones regulares
