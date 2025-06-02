@@ -4,7 +4,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, RotateCcw, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-// Cambiamos la importación para usar solo funcionalidades básicas
+// Importamos nuestra utilidad para extraer datos del PDF
+import { extractEnergyConsumptionFromFile } from "@/utils/pdfParser";
+// Mantenemos PDF.js para visualización si es necesario
 import * as pdfjsLib from "pdfjs-dist";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -14,6 +16,7 @@ const ServiceAccount = () => {
   const [extractedData, setExtractedData] = useState<{
     energia: string;
     fecha: string;
+    textoCompleto?: string;
   } | null>(null);
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -23,8 +26,8 @@ const ServiceAccount = () => {
 
   // Configuración de PDF.js al cargar el componente
   useEffect(() => {
-    // Establecer la ruta del worker usando importación dinámica
-    const workerSrc = "/pdf.worker.min.js"; // Necesitarás copiar este archivo a tu carpeta public/
+    // Usar la versión CDN del worker que coincide con nuestra versión instalada
+    const workerSrc = `https://unpkg.com/pdfjs-dist@5.2.133/build/pdf.worker.min.mjs`;
     pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
   }, []);
 
@@ -43,6 +46,10 @@ const ServiceAccount = () => {
         toast.success("PDF procesado exitosamente", {
           description: `Se encontraron datos: Energía: ${data.energia} kWh, Fecha: ${data.fecha}`,
         });
+        console.log(
+          "Texto completo extraído:",
+          data.textoCompleto || "No disponible"
+        );
       } catch (err) {
         console.error("Error al procesar el PDF:", err);
         setError(
@@ -65,16 +72,50 @@ const ServiceAccount = () => {
 
   const extractDataFromPdf = async (
     pdfFile: File
+  ): Promise<{ energia: string; fecha: string; textoCompleto?: string }> => {
+    try {
+      // Usamos nuestra función de utilidad que ahora usa PDF.js directamente
+      const result = await extractEnergyConsumptionFromFile(pdfFile);
+
+      // Imprimimos el texto completo por consola
+      console.log("Texto extraído del PDF:", result.textoCompleto);
+
+      if (!result.energia || !result.fechaTexto) {
+        throw new Error("No se encontraron los datos necesarios en el PDF");
+      }
+
+      return {
+        energia: result.energia,
+        fecha: result.fechaTexto,
+        textoCompleto: result.textoCompleto,
+      };
+    } catch (error) {
+      console.error("Error al extraer datos con nuestra utilidad:", error);
+      console.log("Utilizando método alternativo con PDF.js");
+      // Intentamos con el método alternativo
+      return await extractWithPdfJs(pdfFile);
+    }
+  };
+
+  // Mantenemos la función original como método de respaldo
+  const extractWithPdfJs = async (
+    pdfFile: File
   ): Promise<{ energia: string; fecha: string }> => {
     // Cargar el PDF usando PDF.js
     const fileData = new Uint8Array(await pdfFile.arrayBuffer());
     const pdf = await pdfjsLib.getDocument({ data: fileData }).promise;
 
-    // Suponemos que los datos están en la segunda página (índice 1)
-    const page = await pdf.getPage(2);
-    const textContent = await page.getTextContent();
-    const textItems = textContent.items.map((item: any) => item.str);
-    const fullText = textItems.join(" ");
+    // Extraemos texto de todas las páginas para mayor robustez
+    let fullText = "";
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map((item: any) => item.str).join(" ");
+      fullText += pageText + " ";
+
+      // Imprimimos el texto de cada página
+      console.log(`Texto extraído de la página ${i}:`, pageText);
+    }
 
     // Extraer la información de energía usando expresiones regulares
     const energiaMatch = fullText.match(/(\d+(?:\.\d+)?)\s*k[wW]h/i);
@@ -188,6 +229,11 @@ const ServiceAccount = () => {
                       ? `Energía: ${extractedData.energia} kWh · Fecha: ${extractedData.fecha}`
                       : "Error al procesar el documento"}
                 </p>
+                {extractedData?.textoCompleto && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Texto extraído correctamente (ver consola para detalles)
+                  </p>
+                )}
               </div>
             </div>
             <Button
