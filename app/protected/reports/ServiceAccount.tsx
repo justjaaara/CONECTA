@@ -71,10 +71,6 @@ const ServiceAccount = () => {
         toast.success("PDF procesado exitosamente", {
           description: `Se encontraron datos: Energía: ${data.energia} kWh, Fecha: ${data.fecha}`,
         });
-        console.log(
-          "Texto completo extraído:",
-          data.textoCompleto || "No disponible"
-        );
       } catch (err) {
         console.error("Error al procesar el PDF:", err);
         setError(
@@ -103,7 +99,6 @@ const ServiceAccount = () => {
       const result = await extractEnergyConsumptionFromFile(pdfFile);
 
       // Imprimimos el texto completo por consola
-      console.log("Texto extraído del PDF:", result.textoCompleto);
 
       if (!result.energia || !result.fechaTexto) {
         throw new Error("No se encontraron los datos necesarios en el PDF");
@@ -116,7 +111,6 @@ const ServiceAccount = () => {
       };
     } catch (error) {
       console.error("Error al extraer datos con nuestra utilidad:", error);
-      console.log("Utilizando método alternativo con PDF.js");
       // Intentamos con el método alternativo
       return await extractWithPdfJs(pdfFile);
     }
@@ -139,7 +133,6 @@ const ServiceAccount = () => {
       fullText += pageText + " ";
 
       // Imprimimos el texto de cada página
-      console.log(`Texto extraído de la página ${i}:`, pageText);
     }
 
     // Extraer la información de energía usando expresiones regulares
