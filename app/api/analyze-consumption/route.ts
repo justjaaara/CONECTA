@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost",
+          "HTTP-Referer": "https://conecta-rouge.vercel.app",
           "X-Title": "Conecta Análisis de Consumo",
         },
         body: JSON.stringify({
